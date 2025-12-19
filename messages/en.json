@@ -1,0 +1,72 @@
+{
+    "nav": {
+        "home": "Home",
+        "about": "About Us",
+        "verify": "Verify Certificates"
+    },
+    "language": {
+        "switch": "العربية"
+    },
+    "hero": {
+        "name": "Dr. Sabri Abu Quron",
+        "headline": "From Classrooms to Global Medical Leadership",
+        "subheadline": "At Dr. Sabri Abu Quron Training Center (STC), we combine academic depth for international exams with refined clinical skills. Join an elite medical community."
+    },
+    "verify": {
+        "title": "Certificate Verification",
+        "subtitle": "Verify the authenticity of certificates issued by Dr. Sabri Abu Quron Training Center",
+        "inputPlaceholder": "Certificate ID",
+        "buttonText": "Verify Now",
+        "searching": "Searching...",
+        "valid": "Valid Certificate",
+        "invalid": "Certificate Not Found",
+        "resultName": "Trainee Name",
+        "resultCourse": "Course Name",
+        "resultDate": "Issue Date",
+        "tryAgain": "Verify Another Certificate"
+    },
+    "about": {
+        "title": "About Us",
+        "subtitle": "Dr. Sabri Abu Quron Training Center (STC)",
+        "mission": {
+            "title": "Our Vision & Mission",
+            "vision": "To be the leading reference in excellent medical education, combining academic depth with clinical application to prepare a generation of globally competitive physicians.",
+            "mission": "We provide high-quality training programs that combine international standards with local needs, focusing on academic excellence and practical clinical skills."
+        },
+        "values": {
+            "title": "Our Core Values",
+            "excellence": {
+                "title": "Academic Excellence",
+                "description": "We maintain the highest quality standards in educational content"
+            },
+            "practice": {
+                "title": "Practical Application",
+                "description": "We transform theories into applicable clinical skills"
+            },
+            "integrity": {
+                "title": "Professional Integrity",
+                "description": "We uphold medical ethics in everything we deliver"
+            },
+            "innovation": {
+                "title": "Educational Innovation",
+                "description": "We use the latest modern medical education methods"
+            }
+        },
+        "founder": {
+            "title": "Founder",
+            "name": "Dr. Sabri Abu Quron",
+            "role": "Physician & Medical Educator",
+            "description": "Extensive experience in medical education and international exam preparation, with a proven track record in qualifying physicians to compete in the finest medical institutions."
+        },
+        "achievements": {
+            "title": "Our Achievements",
+            "students": "500+ Trainees",
+            "courses": "50+ Training Courses",
+            "countries": "Graduates in 15+ Countries"
+        },
+        "accreditations": {
+            "title": "Accreditations & Partnerships",
+            "description": "We ensure our certificates are accredited and recognized locally and internationally"
+        }
+    }
+}

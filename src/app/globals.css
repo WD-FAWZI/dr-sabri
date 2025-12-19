@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+/* ===================================
+   DR. SABRI ABU QURON - GLOBAL STYLES
+   Dark Theme with Premium Aesthetics
+   =================================== */
+
+/* CSS Variables for consistent theming */
+:root {
+  /* Primary Colors */
+  --color-primary: 99 102 241;      /* Indigo */
+  --color-secondary: 20 184 166;    /* Teal */
+  
+  /* Background Colors */
+  --color-bg-primary: 15 23 42;     /* slate-900 */
+  --color-bg-secondary: 30 41 59;   /* slate-800 */
+  --color-bg-tertiary: 51 65 85;    /* slate-700 */
+  
+  /* Text Colors */
+  --color-text-primary: 241 245 249; /* slate-100 */
+  --color-text-secondary: 148 163 184; /* slate-400 */
+  --color-text-muted: 100 116 139;  /* slate-500 */
+  
+  /* Glass Effect */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  
+  /* Shadows */
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+  --shadow-glow-hover: 0 0 30px rgba(99, 102, 241, 0.6);
+}
+
+/* Base Body Styles */
+body {
+  background-color: rgb(var(--color-bg-primary));
+  color: rgb(var(--color-text-primary));
+  font-family: var(--font-sans, ui-sans-serif, system-ui, -apple-system, sans-serif);
+}
+
+/* Selection Highlight */
+::selection {
+  background-color: rgba(99, 102, 241, 0.3);
+  color: rgb(199, 210, 254);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--color-bg-secondary));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--color-bg-tertiary));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--color-primary));
+}
+
+/* Glass Card Utility */
+.glass-card {
+  backdrop-filter: blur(12px);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Gradient Text Utility */
+.gradient-text {
+  background: linear-gradient(to right, rgb(var(--color-primary)), rgb(var(--color-secondary)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow Button */
+.btn-glow {
+  box-shadow: var(--shadow-glow);
+  transition: box-shadow 0.3s ease;
+}
+
+.btn-glow:hover {
+  box-shadow: var(--shadow-glow-hover);
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+/* Smooth page transitions */
+.page-transition {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus states for accessibility */
+:focus-visible {
+  outline: 2px solid rgb(var(--color-primary));
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
