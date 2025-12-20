@@ -3,7 +3,6 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollThreshold } from '@/hooks/useScrollThreshold';
 import LanguageSwitcher from '../ui/LanguageSwitcher';
@@ -58,13 +57,39 @@ export default function Navbar({ locale }: { locale: string }) {
                     <LanguageSwitcher locale={locale} />
                 </div>
 
-                {/* Mobile Toggle */}
+
+                {/* Mobile Toggle - Animated Hamburger */}
                 <button
-                    className="md:hidden z-50 text-white p-2"
+                    className="md:hidden z-50 relative w-10 h-10 flex items-center justify-center group"
                     aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
-                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    <div className="relative w-6 h-5 flex flex-col justify-between">
+                        {/* Top Line */}
+                        <span
+                            className={`block h-0.5 w-full bg-white rounded-full transition-all duration-300 ease-out origin-center ${isMobileMenuOpen
+                                ? 'rotate-45 translate-y-[9px]'
+                                : 'rotate-0 translate-y-0'
+                                }`}
+                        />
+
+                        {/* Middle Line */}
+                        <span
+                            className={`block h-0.5 w-full bg-white rounded-full transition-all duration-300 ease-out ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
+                                }`}
+                        />
+
+                        {/* Bottom Line */}
+                        <span
+                            className={`block h-0.5 w-full bg-white rounded-full transition-all duration-300 ease-out origin-center ${isMobileMenuOpen
+                                ? '-rotate-45 -translate-y-[9px]'
+                                : 'rotate-0 translate-y-0'
+                                }`}
+                        />
+                    </div>
+
+                    {/* Hover Glow Effect */}
+                    <span className="absolute inset-0 rounded-full bg-indigo-500/0 group-hover:bg-indigo-500/10 transition-colors duration-300" />
                 </button>
 
                 {/* Mobile Menu Overlay */}
