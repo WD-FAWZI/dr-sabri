@@ -1,0 +1,58 @@
+{
+    "name": "Dr. Sabri Abu Quron - Medical Training Center",
+    "short_name": "Dr. Sabri STC",
+    "description": "مركز د. صبري أبو قرون للتدريب الطبي - من قاعات الدراسة إلى ريادة الطب العالمي",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#0f172a",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "ar",
+    "icons": [
+        {
+            "src": "/images/dr-sabri.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/dr-sabri.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "purpose": "any maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "التحقق من الشهادات",
+            "short_name": "تحقق",
+            "description": "تحقق من صحة شهادات التدريب",
+            "url": "/ar/verify",
+            "icons": [
+                {
+                    "src": "/images/dr-sabri.jpg",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "اتصل بنا",
+            "short_name": "اتصل",
+            "description": "تواصل معنا",
+            "url": "/ar/contact",
+            "icons": [
+                {
+                    "src": "/images/dr-sabri.jpg",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ],
+    "categories": [
+        "education",
+        "medical",
+        "training"
+    ],
+    "prefer_related_applications": false
+}

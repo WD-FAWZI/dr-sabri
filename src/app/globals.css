@@ -8,23 +8,31 @@
 /* CSS Variables for consistent theming */
 :root {
   /* Primary Colors */
-  --color-primary: 99 102 241;      /* Indigo */
-  --color-secondary: 20 184 166;    /* Teal */
-  
+  --color-primary: 99 102 241;
+  /* Indigo */
+  --color-secondary: 20 184 166;
+  /* Teal */
+
   /* Background Colors */
-  --color-bg-primary: 15 23 42;     /* slate-900 */
-  --color-bg-secondary: 30 41 59;   /* slate-800 */
-  --color-bg-tertiary: 51 65 85;    /* slate-700 */
-  
+  --color-bg-primary: 15 23 42;
+  /* slate-900 */
+  --color-bg-secondary: 30 41 59;
+  /* slate-800 */
+  --color-bg-tertiary: 51 65 85;
+  /* slate-700 */
+
   /* Text Colors */
-  --color-text-primary: 241 245 249; /* slate-100 */
-  --color-text-secondary: 148 163 184; /* slate-400 */
-  --color-text-muted: 100 116 139;  /* slate-500 */
-  
+  --color-text-primary: 241 245 249;
+  /* slate-100 */
+  --color-text-secondary: 148 163 184;
+  /* slate-400 */
+  --color-text-muted: 100 116 139;
+  /* slate-500 */
+
   /* Glass Effect */
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
-  
+
   /* Shadows */
   --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.4);
   --shadow-glow-hover: 0 0 30px rgba(99, 102, 241, 0.6);
@@ -34,7 +42,12 @@
 body {
   background-color: rgb(var(--color-bg-primary));
   color: rgb(var(--color-text-primary));
-  font-family: var(--font-sans, ui-sans-serif, system-ui, -apple-system, sans-serif);
+  font-family: var(--font-inter, ui-sans-serif, system-ui, -apple-system, sans-serif);
+}
+
+/* Arabic Font Family */
+.font-arabic {
+  font-family: var(--font-tajawal, 'Tajawal', 'Segoe UI', Tahoma, sans-serif);
 }
 
 /* Selection Highlight */
@@ -103,6 +116,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -117,11 +131,46 @@ body {
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===================================
+   PREMIUM BACKGROUND ANIMATIONS
+   =================================== */
+
+/* Gradient Flow - Slow moving gradient */
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Subtle Pulse - For glowing orbs */
+@keyframes subtlePulse {
+
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.2;
+    transform: scale(1.05);
   }
 }

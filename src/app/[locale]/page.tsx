@@ -1,6 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { getTranslations } from 'next-intl/server';
 import NetworkBackground from '@/components/ui/NetworkBackground';
+import GradientDivider from '@/components/ui/GradientDivider';
 import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/home/Hero';
 import Philosophy from '@/components/home/Philosophy';
@@ -60,6 +61,7 @@ export default async function HomePage({
                 {/* Content */}
                 <div className="relative z-10">
                     <Hero locale={locale} />
+                    <GradientDivider />
                     <Philosophy locale={locale} />
                     <Partners locale={locale} />
                 </div>

@@ -16,11 +16,13 @@ export default function Navbar({ locale }: { locale: string }) {
     const isScrolled = useScrollThreshold(20);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+
     const navLinks = useMemo(
         () => [
             { id: 'home', label: t('home'), href: '/' },
             { id: 'about', label: t('about'), href: '/about' },
             { id: 'verify', label: t('verify'), href: '/verify' },
+            { id: 'contact', label: t('contact'), href: '/contact' },
         ],
         [t]
     );

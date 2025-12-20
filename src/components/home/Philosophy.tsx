@@ -33,7 +33,7 @@ export default function Philosophy({ locale }: { locale: string }) {
                     {/* Quote Card */}
                     <div className="order-2 md:order-1 relative">
                         <div className="relative z-10 glass-card p-10 rounded-3xl space-y-6 text-right transform-gpu">
-                            <div className="absolute -top-6 -right-6 text-indigo-500/20">
+                            <div className="absolute -top-6 -right-6 text-indigo-500/30 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]">
                                 <Quote size={80} fill="currentColor" />
                             </div>
 

@@ -43,8 +43,14 @@ function VerifyPageContent({ locale }: VerifyPageContentProps) {
         <>
             <Navbar locale={locale} />
 
-            <main className="min-h-screen bg-slate-900 pt-32 pb-20 px-6">
-                <div className="max-w-4xl mx-auto">
+            <main className="min-h-screen bg-slate-900 pt-32 pb-20 px-6 relative overflow-hidden">
+                {/* Subtle Background Orbs */}
+                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-[150px]" />
+                    <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-teal-500/5 rounded-full blur-[120px]" />
+                </div>
+
+                <div className="max-w-4xl mx-auto relative z-10">
                     {/* Header */}
                     <div className="text-center mb-12">
                         <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">

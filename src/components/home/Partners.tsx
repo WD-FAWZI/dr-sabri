@@ -15,13 +15,13 @@ export default function Partners({ locale }: { locale: string }) {
                 </p>
                 <div className="flex justify-center items-center">
                     <div className="group flex flex-col items-center gap-3 cursor-default opacity-60 hover:opacity-100 transition-opacity duration-500">
-                        <div className="w-24 h-24 rounded-full bg-slate-800 flex items-center justify-center grayscale group-hover:grayscale-0 transition-all duration-500 border border-slate-700 group-hover:border-indigo-500 shadow-none group-hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] overflow-hidden">
+                        <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center grayscale group-hover:grayscale-0 transition-all duration-500 border border-slate-700 group-hover:border-indigo-500 shadow-none group-hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] overflow-hidden">
                             <Image
                                 src="/images/stc-logo.jpg"
                                 alt="STC Logo"
                                 width={96}
                                 height={96}
-                                className="w-full h-full object-contain p-2"
+                                className="w-full h-full object-cover rounded-full"
                             />
                         </div>
                         <span className="text-sm font-bold text-slate-400 group-hover:text-indigo-400 transition-colors">

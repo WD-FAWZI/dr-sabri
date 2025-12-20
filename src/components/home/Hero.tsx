@@ -25,25 +25,6 @@ export default function Hero({ locale }: { locale: string }) {
 
     return (
         <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-            {/* Scroll Down Hint - Only animate if motion is allowed */}
-            {!shouldReduceMotion ? (
-                <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-500 z-10"
-                >
-                    <div className="w-6 h-10 border-2 border-slate-600 rounded-full flex justify-center pt-2">
-                        <div className="w-1 h-2 bg-indigo-500 rounded-full" />
-                    </div>
-                </motion.div>
-            ) : (
-                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-500 z-10">
-                    <div className="w-6 h-10 border-2 border-slate-600 rounded-full flex justify-center pt-2">
-                        <div className="w-1 h-2 bg-indigo-500 rounded-full" />
-                    </div>
-                </div>
-            )}
-
             <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
                 <motion.div
                     initial={shouldReduceMotion ? undefined : "hidden"}
@@ -88,18 +69,18 @@ export default function Hero({ locale }: { locale: string }) {
                     </p>
 
                     {/* CTA Buttons */}
-                    <div className="pt-8 flex justify-center gap-4 flex-wrap">
+                    <div className="pt-8 flex justify-center gap-5 flex-wrap">
                         <a
                             href="https://www.stc.training"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-8 py-3 rounded-full bg-indigo-600 text-white hover:bg-indigo-500 transition-all shadow-[0_0_20px_rgba(79,70,229,0.4)] hover:shadow-[0_0_30px_rgba(79,70,229,0.6)] btn-glow"
+                            className="px-10 py-4 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-lg font-bold hover:from-indigo-400 hover:to-purple-400 transition-all duration-300 shadow-[0_0_30px_rgba(99,102,241,0.6)] hover:shadow-[0_0_45px_rgba(99,102,241,0.8)] hover:scale-105"
                         >
                             {locale === 'ar' ? 'انضم لمنصة التدريب' : 'Join Training Platform'}
                         </a>
                         <a
                             href={`/${locale}/verify`}
-                            className="px-8 py-3 rounded-full bg-transparent border border-slate-600 text-slate-300 hover:border-white hover:text-white transition-all"
+                            className="px-10 py-4 rounded-full bg-white/10 backdrop-blur-md border-2 border-white/40 text-white text-lg font-bold hover:border-white hover:bg-white/20 transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,255,255,0.3)] hover:scale-105"
                         >
                             {locale === 'ar' ? 'تحقق من الشهادات' : 'Verify Certificates'}
                         </a>

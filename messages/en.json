@@ -2,7 +2,8 @@
     "nav": {
         "home": "Home",
         "about": "About Us",
-        "verify": "Verify Certificates"
+        "verify": "Verify Certificates",
+        "contact": "Contact Us"
     },
     "language": {
         "switch": "العربية"

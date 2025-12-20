@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { motion, Variants, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { Target, Award, Users, Globe, Heart, Lightbulb, Shield, Sparkles } from 'lucide-react';
+import CountUp from '@/components/ui/CountUp';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
@@ -81,17 +82,20 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
     const achievements = [
         {
             icon: Users,
-            number: '500+',
+            numericValue: 500,
+            suffix: '+',
             label: t('achievements.students'),
         },
         {
             icon: Target,
-            number: '50+',
+            numericValue: 50,
+            suffix: '+',
             label: t('achievements.courses'),
         },
         {
             icon: Globe,
-            number: '15+',
+            numericValue: 15,
+            suffix: '+',
             label: t('achievements.countries'),
         },
     ];
@@ -176,7 +180,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                     </motion.div>
                 </div>
 
-                {/* Core Values - STAGGERED ANIMATION */}
+                {/* Core Values - ANIMATED ICONS */}
                 <div className="max-w-6xl mx-auto px-6 mb-24">
                     <motion.div
                         {...getAnimationProps(containerVariants)}
@@ -188,21 +192,47 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                             {t('values.title')}
                         </motion.h2>
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {values.map((value, index) => (
-                                <motion.div
-                                    key={index}
-                                    variants={itemVariants}
-                                    className="glass-card rounded-2xl p-6 hover:border-indigo-500/50 transition-colors"
-                                >
-                                    <value.icon className="text-indigo-400 mb-4" size={40} />
-                                    <h3 className="text-lg font-bold text-white mb-2">
-                                        {value.title}
-                                    </h3>
-                                    <p className="text-sm text-slate-400 leading-relaxed">
-                                        {value.description}
-                                    </p>
-                                </motion.div>
-                            ))}
+                            {values.map((value, index) => {
+                                // Different subtle glow colors for each icon
+                                const glowColors = [
+                                    'group-hover:drop-shadow-[0_0_8px_rgba(250,204,21,0.4)]',   // Yellow for Award
+                                    'group-hover:drop-shadow-[0_0_8px_rgba(248,113,113,0.4)]', // Red for Heart
+                                    'group-hover:drop-shadow-[0_0_8px_rgba(96,165,250,0.4)]',  // Blue for Shield
+                                    'group-hover:drop-shadow-[0_0_8px_rgba(251,191,36,0.4)]',  // Amber for Lightbulb
+                                ];
+                                const iconColors = [
+                                    'text-indigo-400 group-hover:text-yellow-400',
+                                    'text-indigo-400 group-hover:text-red-400',
+                                    'text-indigo-400 group-hover:text-blue-400',
+                                    'text-indigo-400 group-hover:text-amber-400',
+                                ];
+
+                                return (
+                                    <motion.div
+                                        key={index}
+                                        variants={itemVariants}
+                                        className="glass-card rounded-2xl p-6 transition-all duration-300 group"
+                                        whileHover={shouldReduceMotion ? {} : {
+                                            y: -3,
+                                            transition: { duration: 0.2 }
+                                        }}
+                                    >
+                                        {/* Icon with subtle colored glow on hover */}
+                                        <div className="mb-4">
+                                            <value.icon
+                                                className={`transition-all duration-300 ${iconColors[index]} ${glowColors[index]}`}
+                                                size={40}
+                                            />
+                                        </div>
+                                        <h3 className="text-lg font-bold text-white mb-2">
+                                            {value.title}
+                                        </h3>
+                                        <p className="text-sm text-slate-400 leading-relaxed">
+                                            {value.description}
+                                        </p>
+                                    </motion.div>
+                                );
+                            })}
                         </div>
                     </motion.div>
                 </div>
@@ -231,7 +261,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                                 <h2 className="text-2xl font-bold text-white">
                                     {t('founder.title')}
                                 </h2>
-                                <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-teal-400">
+                                <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-teal-400 leading-relaxed pb-1">
                                     {t('founder.name')}
                                 </h3>
                                 <p className="text-indigo-300 font-medium">
@@ -257,22 +287,60 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                             {t('achievements.title')}
                         </motion.h2>
                         <div className="grid md:grid-cols-3 gap-8">
-                            {achievements.map((achievement, index) => (
-                                <motion.div
-                                    key={index}
-                                    variants={itemVariants}
-                                    className="glass-card rounded-2xl p-8 text-center hover:scale-105 transition-transform"
-                                >
-                                    <achievement.icon
-                                        className="text-teal-400 mx-auto mb-4"
-                                        size={48}
-                                    />
-                                    <div className="text-4xl font-bold text-white mb-2">
-                                        {achievement.number}
+                            {achievements.map((achievement, index) => {
+                                // Unique entrance animations for each icon (runs once only)
+                                const iconAnimations = [
+                                    // Users - Gentle bounce in (from small to normal)
+                                    {
+                                        initial: shouldReduceMotion ? {} : { scale: 0.5, opacity: 0 },
+                                        whileInView: shouldReduceMotion ? {} : { scale: 1, opacity: 1 },
+                                        transition: { type: "spring" as const, stiffness: 200, damping: 15, delay: 0.2 },
+                                    },
+                                    // Target - Arrow hitting target (from big to normal)
+                                    {
+                                        initial: shouldReduceMotion ? {} : { scale: 1.5, opacity: 0 },
+                                        whileInView: shouldReduceMotion ? {} : { scale: 1, opacity: 1 },
+                                        transition: { type: "spring" as const, stiffness: 300, damping: 20, delay: 0.3 },
+                                    },
+                                    // Globe - Rotation entrance (rotates 30 degrees)
+                                    {
+                                        initial: shouldReduceMotion ? {} : { rotate: -30, opacity: 0 },
+                                        whileInView: shouldReduceMotion ? {} : { rotate: 0, opacity: 1 },
+                                        transition: { type: "spring" as const, stiffness: 150, damping: 12, delay: 0.4 },
+                                    },
+                                ];
+
+                                const iconAnim = iconAnimations[index] || iconAnimations[0];
+
+                                return (
+                                    <div
+                                        key={index}
+                                        className="glass-card rounded-2xl p-8 text-center"
+                                    >
+                                        {/* Icon with unique entrance animation - NO hover effects */}
+                                        <motion.div
+                                            initial={iconAnim.initial}
+                                            whileInView={iconAnim.whileInView}
+                                            viewport={{ once: true, amount: 0.5 }}
+                                            transition={iconAnim.transition}
+                                            className="inline-block"
+                                        >
+                                            <achievement.icon
+                                                className="text-teal-400 mx-auto mb-4"
+                                                size={48}
+                                            />
+                                        </motion.div>
+                                        <div className="text-4xl font-bold text-white mb-2">
+                                            <CountUp
+                                                end={achievement.numericValue}
+                                                suffix={achievement.suffix}
+                                                duration={2000}
+                                            />
+                                        </div>
+                                        <p className="text-slate-400">{achievement.label}</p>
                                     </div>
-                                    <p className="text-slate-400">{achievement.label}</p>
-                                </motion.div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </motion.div>
                 </div>
