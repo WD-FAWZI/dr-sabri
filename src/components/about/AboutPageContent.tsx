@@ -2,18 +2,18 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import Image from 'next/image';
 import { Target, Award, Users, Globe, Heart, Lightbulb, Shield, Sparkles } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
-const fadeInUp = {
+const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
+        transition: { duration: 0.6, ease: "easeOut" },
     },
 };
 
