@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 
 const fadeInUp: Variants = {
@@ -16,30 +16,39 @@ const fadeInUp: Variants = {
 
 /**
  * Hero - Main hero section with Dr. Sabri's introduction
- * Content kept minimal pending official approval
+ * Performance optimized with prefers-reduced-motion support
  */
 export default function Hero({ locale }: { locale: string }) {
     const t = useTranslations('hero');
     const [imageError, setImageError] = useState(false);
+    const shouldReduceMotion = useReducedMotion();
 
     return (
         <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-            {/* Scroll Down Hint */}
-            <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-500 z-10"
-            >
-                <div className="w-6 h-10 border-2 border-slate-600 rounded-full flex justify-center pt-2">
-                    <div className="w-1 h-2 bg-indigo-500 rounded-full" />
+            {/* Scroll Down Hint - Only animate if motion is allowed */}
+            {!shouldReduceMotion ? (
+                <motion.div
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                    className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-500 z-10"
+                >
+                    <div className="w-6 h-10 border-2 border-slate-600 rounded-full flex justify-center pt-2">
+                        <div className="w-1 h-2 bg-indigo-500 rounded-full" />
+                    </div>
+                </motion.div>
+            ) : (
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-500 z-10">
+                    <div className="w-6 h-10 border-2 border-slate-600 rounded-full flex justify-center pt-2">
+                        <div className="w-1 h-2 bg-indigo-500 rounded-full" />
+                    </div>
                 </div>
-            </motion.div>
+            )}
 
             <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
                 <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    variants={fadeInUp}
+                    initial={shouldReduceMotion ? undefined : "hidden"}
+                    animate={shouldReduceMotion ? undefined : "visible"}
+                    variants={shouldReduceMotion ? undefined : fadeInUp}
                     className="space-y-8"
                 >
                     {/* Glowing Avatar Container */}

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants, useReducedMotion } from 'framer-motion';
 import { Quote } from 'lucide-react';
 
 const fadeInUp: Variants = {
@@ -15,17 +15,19 @@ const fadeInUp: Variants = {
 
 /**
  * Philosophy - Scientific message and teaching philosophy
- * Migrated from original code
+ * Performance optimized with prefers-reduced-motion support
  */
 export default function Philosophy({ locale }: { locale: string }) {
+    const shouldReduceMotion = useReducedMotion();
+
     return (
         <section className="py-24 bg-slate-900 relative">
             <div className="max-w-5xl mx-auto px-6">
                 <motion.div
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: '-100px' }}
-                    variants={fadeInUp}
+                    initial={shouldReduceMotion ? undefined : "hidden"}
+                    whileInView={shouldReduceMotion ? undefined : "visible"}
+                    viewport={shouldReduceMotion ? undefined : { once: true, margin: '-50px' }}
+                    variants={shouldReduceMotion ? undefined : fadeInUp}
                     className="grid md:grid-cols-2 gap-12 items-center"
                 >
                     {/* Quote Card */}

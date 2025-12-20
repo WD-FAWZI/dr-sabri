@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
 
 interface MetadataParams {
     locale: string;
@@ -7,6 +6,8 @@ interface MetadataParams {
     description: string;
     path?: string;
 }
+
+const SITE_URL = 'https://dr-sabri.vercel.app';
 
 /**
  * Generate metadata for pages with i18n support
@@ -17,7 +18,7 @@ export async function generatePageMetadata({
     description,
     path = '',
 }: MetadataParams): Promise<Metadata> {
-    const baseUrl = 'https://dr-sabri.com'; // TODO: Replace with actual domain
+    const baseUrl = SITE_URL;
     const url = `${baseUrl}/${locale}${path}`;
 
     return {
@@ -85,8 +86,8 @@ export function generatePersonStructuredData(locale: string) {
             name: 'Dr. Sabri Abu Quron Training Center (STC)',
             url: 'https://www.stc.training',
         },
-        url: locale === 'ar' ? 'https://dr-sabri.com/ar' : 'https://dr-sabri.com/en',
-        image: 'https://dr-sabri.com/images/dr-sabri.jpg',
+        url: locale === 'ar' ? `${SITE_URL}/ar` : `${SITE_URL}/en`,
+        image: `${SITE_URL}/images/dr-sabri.jpg`,
     };
 }
 
@@ -100,7 +101,7 @@ export function generateOrganizationStructuredData(locale: string) {
         name: 'Dr. Sabri Abu Quron Training Center (STC)',
         alternateName: locale === 'ar' ? 'مركز د. صبري أبو قرون للتدريب' : 'STC',
         url: 'https://www.stc.training',
-        logo: 'https://dr-sabri.com/images/stc-logo.jpg',
+        logo: `${SITE_URL}/images/dr-sabri.jpg`,
         description:
             locale === 'ar'
                 ? 'مركز تدريب طبي متخصص في التحضير للامتحانات العالمية والمهارات السريرية'

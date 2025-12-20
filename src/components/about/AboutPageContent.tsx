@@ -2,12 +2,42 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { Target, Award, Users, Globe, Heart, Lightbulb, Shield, Sparkles } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
+/**
+ * === PERFORMANCE-OPTIMIZED ANIMATION VARIANTS ===
+ * - Respects prefers-reduced-motion
+ * - Staggered children for smooth loading
+ * - GPU-accelerated transforms only
+ */
+
+// Container variant for staggered children
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.1,
+        },
+    },
+};
+
+// Item variant for fade-in-up effect
+const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.5, ease: "easeOut" },
+    },
+};
+
+// Simple fade for sections
 const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
@@ -23,6 +53,7 @@ interface AboutPageContentProps {
 
 export default function AboutPageContent({ locale }: AboutPageContentProps) {
     const t = useTranslations('about');
+    const shouldReduceMotion = useReducedMotion();
 
     const values = [
         {
@@ -65,6 +96,30 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
         },
     ];
 
+    // Animation props - disabled when user prefers reduced motion
+    const getAnimationProps = (variant: Variants) => {
+        if (shouldReduceMotion) {
+            return {}; // No animation
+        }
+        return {
+            initial: "hidden",
+            whileInView: "visible",
+            viewport: { once: true, margin: '-50px' },
+            variants: variant,
+        };
+    };
+
+    const getInitialAnimationProps = (variant: Variants) => {
+        if (shouldReduceMotion) {
+            return {};
+        }
+        return {
+            initial: "hidden",
+            animate: "visible",
+            variants: variant,
+        };
+    };
+
     return (
         <>
             <Navbar locale={locale} />
@@ -73,9 +128,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 {/* Hero Section */}
                 <div className="max-w-6xl mx-auto px-6 mb-20">
                     <motion.div
-                        initial="hidden"
-                        animate="visible"
-                        variants={fadeInUp}
+                        {...getInitialAnimationProps(fadeInUp)}
                         className="text-center space-y-4"
                     >
                         <h1 className="text-4xl md:text-5xl font-bold text-white">
@@ -90,10 +143,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 {/* Mission & Vision */}
                 <div className="max-w-6xl mx-auto px-6 mb-24">
                     <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: '-100px' }}
-                        variants={fadeInUp}
+                        {...getAnimationProps(fadeInUp)}
                         className="glass-card rounded-3xl p-8 md:p-12"
                     >
                         <h2 className="text-3xl font-bold text-white mb-8 text-center">
@@ -126,21 +176,22 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                     </motion.div>
                 </div>
 
-                {/* Core Values */}
+                {/* Core Values - STAGGERED ANIMATION */}
                 <div className="max-w-6xl mx-auto px-6 mb-24">
                     <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: '-100px' }}
-                        variants={fadeInUp}
+                        {...getAnimationProps(containerVariants)}
                     >
-                        <h2 className="text-3xl font-bold text-white mb-12 text-center">
+                        <motion.h2
+                            variants={itemVariants}
+                            className="text-3xl font-bold text-white mb-12 text-center"
+                        >
                             {t('values.title')}
-                        </h2>
+                        </motion.h2>
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {values.map((value, index) => (
-                                <div
+                                <motion.div
                                     key={index}
+                                    variants={itemVariants}
                                     className="glass-card rounded-2xl p-6 hover:border-indigo-500/50 transition-colors"
                                 >
                                     <value.icon className="text-indigo-400 mb-4" size={40} />
@@ -150,7 +201,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                                     <p className="text-sm text-slate-400 leading-relaxed">
                                         {value.description}
                                     </p>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </motion.div>
@@ -159,10 +210,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 {/* Founder Section */}
                 <div className="max-w-6xl mx-auto px-6 mb-24">
                     <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: '-100px' }}
-                        variants={fadeInUp}
+                        {...getAnimationProps(fadeInUp)}
                         className="glass-card rounded-3xl p-8 md:p-12"
                     >
                         <div className="grid md:grid-cols-3 gap-8 items-center">
@@ -197,21 +245,22 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                     </motion.div>
                 </div>
 
-                {/* Achievements */}
+                {/* Achievements - STAGGERED ANIMATION */}
                 <div className="max-w-6xl mx-auto px-6 mb-24">
                     <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: '-100px' }}
-                        variants={fadeInUp}
+                        {...getAnimationProps(containerVariants)}
                     >
-                        <h2 className="text-3xl font-bold text-white mb-12 text-center">
+                        <motion.h2
+                            variants={itemVariants}
+                            className="text-3xl font-bold text-white mb-12 text-center"
+                        >
                             {t('achievements.title')}
-                        </h2>
+                        </motion.h2>
                         <div className="grid md:grid-cols-3 gap-8">
                             {achievements.map((achievement, index) => (
-                                <div
+                                <motion.div
                                     key={index}
+                                    variants={itemVariants}
                                     className="glass-card rounded-2xl p-8 text-center hover:scale-105 transition-transform"
                                 >
                                     <achievement.icon
@@ -222,7 +271,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                                         {achievement.number}
                                     </div>
                                     <p className="text-slate-400">{achievement.label}</p>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </motion.div>
@@ -231,10 +280,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 {/* Accreditations */}
                 <div className="max-w-6xl mx-auto px-6">
                     <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: '-100px' }}
-                        variants={fadeInUp}
+                        {...getAnimationProps(fadeInUp)}
                         className="glass-card rounded-3xl p-8 md:p-12 text-center"
                     >
                         <h2 className="text-3xl font-bold text-white mb-4">
