@@ -29,7 +29,7 @@ export default function Navbar({ locale }: { locale: string }) {
     return (
         <nav
             className={`fixed w-full z-50 transition-all duration-500 ${isScrolled
-                ? 'py-4 backdrop-blur-lg bg-slate-900/80 border-b border-white/5'
+                ? 'py-4 backdrop-blur-xl bg-gradient-to-b from-slate-900/80 via-slate-900/70 to-slate-900/60 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] border-b border-white/5'
                 : 'py-8 bg-transparent'
                 }`}
         >
@@ -70,27 +70,114 @@ export default function Navbar({ locale }: { locale: string }) {
                 {/* Mobile Menu Overlay */}
                 <AnimatePresence>
                     {isMobileMenuOpen && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="fixed inset-0 bg-slate-900/98 backdrop-blur-xl z-40 flex flex-col items-center justify-center space-y-8"
-                        >
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.id}
-                                    href={link.href}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="text-2xl font-bold text-white"
+                        <>
+                            {/* Backdrop with Glassmorphism */}
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{
+                                    duration: 0.4,
+                                    ease: [0.22, 1, 0.36, 1]
+                                }}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="fixed inset-0 z-40 cursor-pointer"
+                                style={{
+                                    background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 27, 75, 0.92) 100%)',
+                                    backdropFilter: 'blur(24px)',
+                                    WebkitBackdropFilter: 'blur(24px)',
+                                }}
+                            >
+                                {/* Subtle Grid Pattern Overlay */}
+                                <div
+                                    className="absolute inset-0 opacity-[0.03]"
+                                    style={{
+                                        backgroundImage: `
+                                            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                                            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+                                        `,
+                                        backgroundSize: '50px 50px'
+                                    }}
+                                />
+
+                                {/* Menu Content Container */}
+                                <motion.div
+                                    initial={{ y: -50, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    exit={{ y: -30, opacity: 0 }}
+                                    transition={{
+                                        duration: 0.5,
+                                        ease: [0.34, 1.56, 0.64, 1] // Premium bounce
+                                    }}
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="relative h-full flex flex-col items-center justify-center"
                                 >
-                                    {link.label}
-                                </Link>
-                            ))}
-                            <div onClick={() => setIsMobileMenuOpen(false)}>
-                                <LanguageSwitcher locale={locale} />
-                            </div>
-                        </motion.div>
+                                    {/* Decorative Glow */}
+                                    <div className="absolute top-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
+
+                                    {/* Menu Items with Staggered Animation */}
+                                    <div className="relative z-10 flex flex-col items-center space-y-6">
+                                        {navLinks.map((link, index) => (
+                                            <motion.div
+                                                key={link.id}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: 10 }}
+                                                transition={{
+                                                    duration: 0.5,
+                                                    delay: index * 0.1,
+                                                    ease: [0.25, 0.46, 0.45, 0.94] // Custom cubic-bezier
+                                                }}
+                                            >
+                                                <Link
+                                                    href={link.href}
+                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                    className="group relative text-3xl font-bold text-white transition-all duration-300 hover:scale-110"
+                                                >
+                                                    {/* Hover Glow Effect */}
+                                                    <span className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-teal-400/20 to-indigo-500/0 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
+
+                                                    {/* Text with Gradient on Hover */}
+                                                    <span className="relative group-hover:bg-gradient-to-r group-hover:from-indigo-400 group-hover:to-teal-400 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+                                                        {link.label}
+                                                    </span>
+
+                                                    {/* Underline Animation */}
+                                                    <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-400 to-teal-400 group-hover:w-full transition-all duration-500 ease-out" />
+                                                </Link>
+                                            </motion.div>
+                                        ))}
+
+                                        {/* Language Switcher with Delay */}
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: 10 }}
+                                            transition={{
+                                                duration: 0.5,
+                                                delay: navLinks.length * 0.1,
+                                                ease: [0.25, 0.46, 0.45, 0.94]
+                                            }}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="mt-8"
+                                        >
+                                            <LanguageSwitcher locale={locale} />
+                                        </motion.div>
+                                    </div>
+
+                                    {/* Close Hint Text */}
+                                    <motion.p
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ delay: 0.6, duration: 0.4 }}
+                                        className="absolute bottom-12 text-sm text-slate-400 font-light"
+                                    >
+                                        {locale === 'ar' ? 'اضغط في أي مكان للإغلاق' : 'Tap anywhere to close'}
+                                    </motion.p>
+                                </motion.div>
+                            </motion.div>
+                        </>
                     )}
                 </AnimatePresence>
             </div>

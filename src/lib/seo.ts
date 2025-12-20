@@ -40,7 +40,7 @@ export async function generatePageMetadata({
             type: 'website',
             images: [
                 {
-                    url: '/images/dr-sabri.jpg',
+                    url: `${baseUrl}/images/dr-sabri.jpg`,
                     width: 1200,
                     height: 630,
                     alt: locale === 'ar' ? 'د. صبري أبو قرون' : 'Dr. Sabri Abu Quron',
@@ -51,7 +51,7 @@ export async function generatePageMetadata({
             card: 'summary_large_image',
             title,
             description,
-            images: ['/images/dr-sabri.jpg'],
+            images: [`${baseUrl}/images/dr-sabri.jpg`],
         },
         robots: {
             index: true,
