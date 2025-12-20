@@ -29,7 +29,7 @@ export default function Navbar({ locale }: { locale: string }) {
     return (
         <nav
             className={`fixed w-full z-50 transition-all duration-500 ${isScrolled
-                ? 'py-4 backdrop-blur-xl bg-gradient-to-b from-slate-900/80 via-slate-900/70 to-slate-900/60 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] border-b border-white/5'
+                ? 'py-4 backdrop-blur-xl bg-gradient-to-b from-slate-900/80 via-slate-900/70 to-slate-900/60 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]'
                 : 'py-8 bg-transparent'
                 }`}
         >
