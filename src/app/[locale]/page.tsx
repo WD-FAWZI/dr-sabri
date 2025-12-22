@@ -5,6 +5,7 @@ import GradientDivider from '@/components/ui/GradientDivider';
 import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/home/Hero';
 import Philosophy from '@/components/home/Philosophy';
+import Testimonials from '@/components/home/Testimonials';
 import Partners from '@/components/home/Partners';
 import Footer from '@/components/layout/Footer';
 import { generatePageMetadata, generatePersonStructuredData, generateOrganizationStructuredData } from '@/lib/seo';
@@ -63,6 +64,9 @@ export default async function HomePage({
                     <Hero locale={locale} />
                     <GradientDivider />
                     <Philosophy locale={locale} />
+                    <GradientDivider />
+                    <Testimonials locale={locale} />
+                    <GradientDivider />
                     <Partners locale={locale} />
                 </div>
             </main>

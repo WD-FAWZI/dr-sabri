@@ -108,7 +108,7 @@ export default function ContactForm({ locale }: ContactFormProps) {
         }
     };
 
-    // Handle form submission
+    // Handle form submission - opens WhatsApp with form data
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -116,14 +116,37 @@ export default function ContactForm({ locale }: ContactFormProps) {
 
         setStatus('submitting');
 
-        // Simulate API call (replace with actual API later)
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            setStatus('success');
-            setFormData({ name: '', email: '', subject: '', message: '' });
-        } catch {
-            setStatus('error');
-        }
+        // Format message for WhatsApp
+        const whatsappMessage = isRTL
+            ? `*رسالة جديدة من موقع المركز*
+
+📛 *الاسم:* ${formData.name}
+📧 *البريد:* ${formData.email}
+📌 *الموضوع:* ${formData.subject}
+
+💬 *الرسالة:*
+${formData.message}`
+            : `*New Message from Website*
+
+📛 *Name:* ${formData.name}
+📧 *Email:* ${formData.email}
+📌 *Subject:* ${formData.subject}
+
+💬 *Message:*
+${formData.message}`;
+
+        // Saudi phone number
+        const phoneNumber = '966502851073';
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+        // Small delay for UX feedback
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // Open WhatsApp
+        window.open(whatsappUrl, '_blank');
+
+        setStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
     };
 
     // Animation variants
