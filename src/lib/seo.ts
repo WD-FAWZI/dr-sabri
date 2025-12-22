@@ -41,10 +41,10 @@ export async function generatePageMetadata({
             type: 'website',
             images: [
                 {
-                    url: `${baseUrl}/images/dr-sabri.jpg`,
+                    url: `${baseUrl}/images/og-image.png`,
                     width: 1200,
                     height: 630,
-                    alt: locale === 'ar' ? 'د. صبري أبو قرون' : 'Dr. Sabri Abu Quron',
+                    alt: locale === 'ar' ? 'د. صبري أبو قرون - مدرب طبي' : 'Dr. Sabri Abu Quron - Medical Mentor',
                 },
             ],
         },
@@ -52,7 +52,7 @@ export async function generatePageMetadata({
             card: 'summary_large_image',
             title,
             description,
-            images: [`${baseUrl}/images/dr-sabri.jpg`],
+            images: [`${baseUrl}/images/og-image.png`],
         },
         robots: {
             index: true,

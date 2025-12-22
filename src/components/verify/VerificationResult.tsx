@@ -120,8 +120,8 @@ export default function VerificationResult({
         >
             <div
                 className={`glass-card rounded-2xl p-8 border-2 relative overflow-hidden ${isValid
-                        ? 'border-green-500/30 bg-green-500/5'
-                        : 'border-red-500/30 bg-red-500/5'
+                    ? 'border-green-500/30 bg-green-500/5'
+                    : 'border-red-500/30 bg-red-500/5'
                     }`}
             >
                 {/* Success Glow Effect */}
@@ -281,7 +281,7 @@ export default function VerificationResult({
                         boxShadow: "0 0 20px rgba(99, 102, 241, 0.3)",
                     }}
                     whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-                    className="w-full mt-6 px-6 py-3 bg-slate-800 border border-slate-700 text-white rounded-lg font-medium hover:bg-slate-700 transition-colors"
+                    className="btn-base btn-ghost w-full mt-6 py-3"
                 >
                     {t('tryAgain')}
                 </motion.button>

@@ -3,23 +3,26 @@
 /* ===================================
    DR. SABRI ABU QURON - GLOBAL STYLES
    Dark Theme with Premium Aesthetics
+   Performance-Optimized for Low-End Devices
    =================================== */
 
 /* CSS Variables for consistent theming */
 :root {
   /* Primary Colors */
   --color-primary: 99 102 241;
-  /* Indigo */
+  /* Indigo #6366f1 */
   --color-secondary: 20 184 166;
-  /* Teal */
+  /* Teal #14b8a6 */
+  --color-purple: 168 85 247;
+  /* Purple #a855f7 */
 
   /* Background Colors */
   --color-bg-primary: 15 23 42;
-  /* slate-900 */
+  /* slate-900 #0f172a */
   --color-bg-secondary: 30 41 59;
-  /* slate-800 */
+  /* slate-800 #1e293b */
   --color-bg-tertiary: 51 65 85;
-  /* slate-700 */
+  /* slate-700 #334155 */
 
   /* Text Colors */
   --color-text-primary: 241 245 249;
@@ -29,13 +32,24 @@
   --color-text-muted: 100 116 139;
   /* slate-500 */
 
-  /* Glass Effect */
-  --glass-bg: rgba(255, 255, 255, 0.05);
+  /* Glass Effect - with solid fallback */
+  --glass-bg: rgba(30, 41, 59, 0.8);
+  /* Solid fallback color */
+  --glass-bg-blur: rgba(255, 255, 255, 0.05);
+  /* Used when blur is supported */
   --glass-border: rgba(255, 255, 255, 0.1);
 
-  /* Shadows */
-  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.4);
-  --shadow-glow-hover: 0 0 30px rgba(99, 102, 241, 0.6);
+  /* Standardized Shadow Tokens */
+  --shadow-glow-sm: 0 0 15px rgba(99, 102, 241, 0.2);
+  --shadow-glow-md: 0 0 25px rgba(99, 102, 241, 0.35);
+  --shadow-glow-lg: 0 0 40px rgba(99, 102, 241, 0.5);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 4px 24px rgba(99, 102, 241, 0.15);
+
+  /* Transition Tokens */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
 }
 
 /* Base Body Styles */
@@ -43,11 +57,78 @@ body {
   background-color: rgb(var(--color-bg-primary));
   color: rgb(var(--color-text-primary));
   font-family: var(--font-inter, ui-sans-serif, system-ui, -apple-system, sans-serif);
+  line-height: 1.625;
+  /* leading-relaxed - breathing room for trustworthy, high-end look */
 }
 
 /* Arabic Font Family */
 .font-arabic {
   font-family: var(--font-tajawal, 'Tajawal', 'Segoe UI', Tahoma, sans-serif);
+}
+
+/* ===================================
+   TYPOGRAPHY - HIGH-END MEDICAL SAAS
+   Inter (English) + Tajawal (Arabic)
+   =================================== */
+
+/* English Headings - Sharp & Modern with tight tracking */
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  /* tracking-tight */
+  color: rgb(var(--color-text-primary));
+}
+
+/* Arabic Headings - Natural spacing, never squeezed */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+.font-arabic h1,
+.font-arabic h2,
+.font-arabic h3 {
+  letter-spacing: 0;
+  /* tracking-normal - Arabic should never be squeezed */
+}
+
+/* Arabic Font Size Boost - Optical balance with Inter */
+.font-arabic-boost {
+  font-size: 1.05em;
+  /* Slight boost for visual balance with Latin fonts */
+}
+
+/* Auto-boost Arabic text for optical weight matching */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3 {
+  font-size: 1.02em;
+  /* Subtle boost for headings */
+}
+
+/* Body Text - Muted for contrast with headings */
+.text-body {
+  font-weight: 400;
+  color: rgb(var(--color-text-secondary));
+  line-height: 1.625;
+}
+
+/* Muted Text - Even more subtle for secondary info */
+.text-muted {
+  font-weight: 400;
+  color: rgb(var(--color-text-muted));
+}
+
+/* High Contrast Heading Utility */
+.heading-primary {
+  font-weight: 700;
+  color: rgb(var(--color-text-primary));
+  letter-spacing: -0.025em;
+}
+
+/* Reset letter-spacing for Arabic headings */
+[dir="rtl"] .heading-primary {
+  letter-spacing: 0;
 }
 
 /* Selection Highlight */
@@ -75,15 +156,161 @@ body {
   background: rgb(var(--color-primary));
 }
 
-/* Glass Card Utility */
+/* ===================================
+   GLASS CARD UTILITIES
+   Performance-optimized with fallbacks
+   =================================== */
+
+/* Base glass card - solid fallback for older devices */
 .glass-card {
-  backdrop-filter: blur(12px);
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-card);
 }
 
-/* Gradient Text Utility */
+/* Apply blur only if supported - uses @supports for progressive enhancement */
+@supports (backdrop-filter: blur(12px)) {
+  .glass-card {
+    background: var(--glass-bg-blur);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Glass card hover state - opt-in via additional class */
+.glass-card-hover {
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.glass-card-hover:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* ===================================
+   BUTTON UTILITIES
+   Standardized across all components
+   =================================== */
+
+/* Base button - shared properties */
+.btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+
+.btn-base:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Primary CTA Button - gradient with glow */
+.btn-primary {
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  background: linear-gradient(to right, rgb(var(--color-primary)), rgb(var(--color-purple)));
+  color: white;
+  font-weight: 700;
+  box-shadow: var(--shadow-glow-md);
+}
+
+.btn-primary:hover:not(:disabled) {
+  box-shadow: var(--shadow-glow-lg), 0 8px 25px rgba(99, 102, 241, 0.3);
+}
+
+/* Secondary CTA Button - glass style with border */
+.btn-secondary {
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-weight: 700;
+}
+
+/* Apply blur only if supported */
+@supports (backdrop-filter: blur(8px)) {
+  .btn-secondary {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+.btn-secondary:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2), 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Form Submit Button - solid indigo */
+.btn-form {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.75rem;
+  background: rgb(79, 70, 229);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+}
+
+.btn-form:hover:not(:disabled) {
+  background: rgb(var(--color-primary));
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4), 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Ghost/Outline Button */
+.btn-ghost {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background: transparent;
+  border: 1px solid rgb(var(--color-bg-tertiary));
+  color: rgb(var(--color-text-secondary));
+}
+
+.btn-ghost:hover:not(:disabled) {
+  border-color: white;
+  color: white;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ===================================
+   SEMANTIC SHADOW UTILITIES
+   Colored glows matching brand
+   =================================== */
+
+.shadow-glow-sm {
+  box-shadow: var(--shadow-glow-sm);
+}
+
+.shadow-glow-md {
+  box-shadow: var(--shadow-glow-md);
+}
+
+.shadow-glow-lg {
+  box-shadow: var(--shadow-glow-lg);
+}
+
+.shadow-glow-teal {
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+}
+
+.shadow-glow-green {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+}
+
+/* Hover glow effect - adds glow on hover */
+.hover-glow:hover {
+  box-shadow: var(--shadow-glow-sm);
+}
+
+/* ===================================
+   GRADIENT TEXT UTILITY
+   =================================== */
+
 .gradient-text {
   background: linear-gradient(to right, rgb(var(--color-primary)), rgb(var(--color-secondary)));
   -webkit-background-clip: text;
@@ -91,22 +318,68 @@ body {
   background-clip: text;
 }
 
-/* Glow Button */
-.btn-glow {
-  box-shadow: var(--shadow-glow);
-  transition: box-shadow 0.3s ease;
+/* ===================================
+   PERFORMANCE UTILITIES
+   Use sparingly - only on animated elements
+   =================================== */
+
+/* GPU acceleration hint - use ONLY on elements that animate transforms */
+.gpu-accelerated {
+  will-change: transform;
+  transform: translateZ(0);
 }
 
-.btn-glow:hover {
-  box-shadow: var(--shadow-glow-hover);
+/* Remove will-change after animation completes (via JS) or on static elements */
+.gpu-static {
+  will-change: auto;
 }
 
-/* RTL Support */
+/* ===================================
+   FORM INPUT UTILITIES
+   Standardized form styling
+   =================================== */
+
+.input-base {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgb(var(--color-bg-tertiary));
+  color: white;
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.input-base::placeholder {
+  color: rgb(var(--color-text-muted));
+}
+
+.input-base:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px rgb(var(--color-primary));
+}
+
+.input-base:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.input-error {
+  border-color: rgb(239, 68, 68);
+}
+
+/* ===================================
+   RTL SUPPORT
+   =================================== */
+
 [dir="rtl"] {
   text-align: right;
 }
 
-/* Smooth page transitions */
+/* ===================================
+   PAGE TRANSITIONS
+   =================================== */
+
 .page-transition {
   animation: fadeIn 0.3s ease-out;
 }
@@ -123,13 +396,17 @@ body {
   }
 }
 
-/* Focus states for accessibility */
+/* ===================================
+   ACCESSIBILITY
+   =================================== */
+
+/* Focus states */
 :focus-visible {
   outline: 2px solid rgb(var(--color-primary));
   outline-offset: 2px;
 }
 
-/* Reduced motion support */
+/* Reduced motion support - CRITICAL for accessibility */
 @media (prefers-reduced-motion: reduce) {
 
   *,
@@ -139,10 +416,16 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  .gpu-accelerated {
+    will-change: auto;
+    transform: none;
+  }
 }
 
 /* ===================================
-   PREMIUM BACKGROUND ANIMATIONS
+   BACKGROUND ANIMATIONS
+   Performance-optimized keyframes
    =================================== */
 
 /* Gradient Flow - Slow moving gradient */

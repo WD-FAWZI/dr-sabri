@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { motion, Variants, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Quote, Star } from 'lucide-react';
+import { staggerContainer, springTransition } from '@/lib/animations';
 
 interface TestimonialsProps {
     locale: string;
@@ -52,24 +53,13 @@ const testimonials: Testimonial[] = [
     },
 ];
 
-// Animation variants
-const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.15,
-            delayChildren: 0.2,
-        },
-    },
-};
-
-const cardVariants: Variants = {
+// Spring-based card variants for natural, modern feel
+const cardVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.5, ease: 'easeOut' },
+        transition: springTransition,
     },
 };
 
@@ -113,13 +103,14 @@ export default function Testimonials({ locale }: TestimonialsProps) {
                     initial={shouldReduceMotion ? {} : 'hidden'}
                     whileInView={shouldReduceMotion ? {} : 'visible'}
                     viewport={{ once: true, margin: '-50px' }}
-                    variants={shouldReduceMotion ? {} : containerVariants}
+                    variants={shouldReduceMotion ? {} : staggerContainer}
                     className="grid md:grid-cols-3 gap-6"
                 >
                     {testimonials.map((testimonial) => (
                         <motion.div
                             key={testimonial.id}
                             variants={shouldReduceMotion ? {} : cardVariants}
+                            whileHover={shouldReduceMotion ? {} : { y: -4, transition: { duration: 0.2 } }}
                             className="glass-card rounded-2xl p-6 relative group hover:border-indigo-500/30 transition-colors duration-300"
                         >
                             {/* Quote Icon */}

@@ -1,38 +1,54 @@
 'use client';
 
 import React from 'react';
-import { motion, Variants, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Quote } from 'lucide-react';
-
-const fadeInUp: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.6, ease: "easeOut" },
-    },
-};
+import { staggerContainer, fadeInUpSpring, springTransition } from '@/lib/animations';
 
 /**
  * Philosophy - Scientific message and teaching philosophy
- * Performance optimized with prefers-reduced-motion support
+ * Features:
+ * - Staggered entrance animations with spring physics
+ * - Quote card and content animate sequentially
+ * - Feature cards have individual spring animations
+ * - Performance optimized with prefers-reduced-motion support
  */
 export default function Philosophy({ locale }: { locale: string }) {
     const shouldReduceMotion = useReducedMotion();
+
+    // Container animation props
+    const containerProps = shouldReduceMotion
+        ? {}
+        : {
+            initial: "hidden",
+            whileInView: "visible",
+            viewport: { once: true, margin: '-50px' },
+            variants: staggerContainer,
+        };
+
+    // Item animation props
+    const itemProps = shouldReduceMotion ? {} : { variants: fadeInUpSpring };
+
+    // Card hover effect
+    const cardHoverProps = shouldReduceMotion
+        ? {}
+        : {
+            whileHover: { y: -4, transition: springTransition },
+        };
 
     return (
         <section className="py-24 bg-slate-900 relative">
             <div className="max-w-5xl mx-auto px-6">
                 <motion.div
-                    initial={shouldReduceMotion ? undefined : "hidden"}
-                    whileInView={shouldReduceMotion ? undefined : "visible"}
-                    viewport={shouldReduceMotion ? undefined : { once: true, margin: '-50px' }}
-                    variants={shouldReduceMotion ? undefined : fadeInUp}
+                    {...containerProps}
                     className="grid md:grid-cols-2 gap-12 items-center"
                 >
                     {/* Quote Card */}
-                    <div className="order-2 md:order-1 relative">
-                        <div className="relative z-10 glass-card p-10 rounded-3xl space-y-6 text-right transform-gpu">
+                    <motion.div
+                        {...itemProps}
+                        className="order-2 md:order-1 relative"
+                    >
+                        <div className="relative z-10 glass-card p-8 md:p-10 rounded-3xl space-y-6 text-right">
                             <div className="absolute -top-6 -right-6 text-indigo-500/30 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]">
                                 <Quote size={80} fill="currentColor" />
                             </div>
@@ -69,10 +85,13 @@ export default function Philosophy({ locale }: { locale: string }) {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Philosophy Content */}
-                    <div className="order-1 md:order-2 space-y-8 text-right">
+                    <motion.div
+                        {...itemProps}
+                        className="order-1 md:order-2 space-y-8 text-right"
+                    >
                         <div>
                             <span className="text-teal-400 font-bold tracking-widest text-xs uppercase mb-2 block">
                                 {locale === 'ar' ? 'لماذا أنا هنا؟' : 'Why Am I Here?'}
@@ -89,9 +108,12 @@ export default function Philosophy({ locale }: { locale: string }) {
                             </p>
                         </div>
 
-                        {/* Feature Cards */}
+                        {/* Feature Cards with hover effect */}
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700">
+                            <motion.div
+                                {...cardHoverProps}
+                                className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700 transition-colors hover:border-indigo-500/30"
+                            >
                                 <h3 className="text-white font-bold mb-1">
                                     {locale === 'ar' ? 'التبسيط' : 'Simplification'}
                                 </h3>
@@ -100,8 +122,11 @@ export default function Philosophy({ locale }: { locale: string }) {
                                         ? 'تحويل المعقد إلى مرئي'
                                         : 'Turning complexity into visuals'}
                                 </p>
-                            </div>
-                            <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700">
+                            </motion.div>
+                            <motion.div
+                                {...cardHoverProps}
+                                className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700 transition-colors hover:border-indigo-500/30"
+                            >
                                 <h3 className="text-white font-bold mb-1">
                                     {locale === 'ar' ? 'الترابط' : 'Interconnection'}
                                 </h3>
@@ -110,9 +135,9 @@ export default function Philosophy({ locale }: { locale: string }) {
                                         ? 'شبكة معلومات متصلة'
                                         : 'Connected knowledge network'}
                                 </p>
-                            </div>
+                            </motion.div>
                         </div>
-                    </div>
+                    </motion.div>
                 </motion.div>
             </div>
         </section>

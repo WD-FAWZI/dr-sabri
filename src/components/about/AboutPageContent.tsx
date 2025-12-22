@@ -2,49 +2,29 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { motion, Variants, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { Target, Award, Users, Globe, Heart, Lightbulb, Shield, Sparkles } from 'lucide-react';
 import CountUp from '@/components/ui/CountUp';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { staggerContainer, fadeInUpSpring, springTransition } from '@/lib/animations';
 
 /**
- * === PERFORMANCE-OPTIMIZED ANIMATION VARIANTS ===
+ * === ABOUT PAGE CONTENT ===
+ * Uses centralized animation utilities from @/lib/animations
  * - Respects prefers-reduced-motion
+ * - Spring-based physics for natural feel
  * - Staggered children for smooth loading
- * - GPU-accelerated transforms only
  */
 
-// Container variant for staggered children
-const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.1,
-            delayChildren: 0.1,
-        },
-    },
-};
-
-// Item variant for fade-in-up effect
-const itemVariants: Variants = {
+// Item variant for stagger children - using spring physics
+const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.5, ease: "easeOut" },
-    },
-};
-
-// Simple fade for sections
-const fadeInUp: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.6, ease: "easeOut" },
+        transition: springTransition,
     },
 };
 
@@ -101,7 +81,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
     ];
 
     // Animation props - disabled when user prefers reduced motion
-    const getAnimationProps = (variant: Variants) => {
+    const getAnimationProps = (variant: typeof fadeInUpSpring) => {
         if (shouldReduceMotion) {
             return {}; // No animation
         }
@@ -113,7 +93,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
         };
     };
 
-    const getInitialAnimationProps = (variant: Variants) => {
+    const getInitialAnimationProps = (variant: typeof fadeInUpSpring) => {
         if (shouldReduceMotion) {
             return {};
         }
@@ -132,7 +112,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 {/* Hero Section */}
                 <div className="max-w-6xl mx-auto px-6 mb-20">
                     <motion.div
-                        {...getInitialAnimationProps(fadeInUp)}
+                        {...getInitialAnimationProps(fadeInUpSpring)}
                         className="text-center space-y-4"
                     >
                         <h1 className="text-4xl md:text-5xl font-bold text-white">
@@ -147,7 +127,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 {/* Mission & Vision */}
                 <div className="max-w-6xl mx-auto px-6 mb-24">
                     <motion.div
-                        {...getAnimationProps(fadeInUp)}
+                        {...getAnimationProps(fadeInUpSpring)}
                         className="glass-card rounded-3xl p-8 md:p-12"
                     >
                         <h2 className="text-3xl font-bold text-white mb-8 text-center">
@@ -183,7 +163,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 {/* Core Values - ANIMATED ICONS */}
                 <div className="max-w-6xl mx-auto px-6 mb-24">
                     <motion.div
-                        {...getAnimationProps(containerVariants)}
+                        {...getAnimationProps(staggerContainer)}
                     >
                         <motion.h2
                             variants={itemVariants}
@@ -240,7 +220,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 {/* Founder Section */}
                 <div className="max-w-6xl mx-auto px-6 mb-24">
                     <motion.div
-                        {...getAnimationProps(fadeInUp)}
+                        {...getAnimationProps(fadeInUpSpring)}
                         className="glass-card rounded-3xl p-8 md:p-12"
                     >
                         <div className="grid md:grid-cols-3 gap-8 items-center">
@@ -253,6 +233,9 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                                             width={192}
                                             height={192}
                                             className="w-full h-full object-cover"
+                                            loading="lazy"
+                                            quality={85}
+                                            sizes="192px"
                                         />
                                     </div>
                                 </div>
@@ -278,7 +261,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 {/* Achievements - STAGGERED ANIMATION */}
                 <div className="max-w-6xl mx-auto px-6 mb-24">
                     <motion.div
-                        {...getAnimationProps(containerVariants)}
+                        {...getAnimationProps(staggerContainer)}
                     >
                         <motion.h2
                             variants={itemVariants}
@@ -348,7 +331,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 {/* Accreditations */}
                 <div className="max-w-6xl mx-auto px-6">
                     <motion.div
-                        {...getAnimationProps(fadeInUp)}
+                        {...getAnimationProps(fadeInUpSpring)}
                         className="glass-card rounded-3xl p-8 md:p-12 text-center"
                     >
                         <h2 className="text-3xl font-bold text-white mb-4">

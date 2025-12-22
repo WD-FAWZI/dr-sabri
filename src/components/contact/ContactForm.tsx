@@ -322,10 +322,7 @@ ${formData.message}`;
                 <button
                     type="submit"
                     disabled={status === 'submitting'}
-                    className="w-full py-4 rounded-xl bg-indigo-600 text-white font-semibold 
-                        hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-500/30 
-                        hover:shadow-indigo-500/50 disabled:opacity-50 disabled:cursor-not-allowed
-                        flex items-center justify-center gap-2"
+                    className="btn-base btn-form disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {status === 'submitting' ? (
                         <>
