@@ -32,6 +32,12 @@ export default function CountUp({
             return;
         }
 
+        // SSR safety check - IntersectionObserver doesn't exist during prerendering
+        if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') {
+            setCount(end);
+            return;
+        }
+
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {

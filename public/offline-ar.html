@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>غير متصل بالإنترنت | مركز د. صبري للتدريب</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e2e8f0;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 400px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-container img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .offline-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1.5rem;
+            opacity: 0.7;
+        }
+
+        .offline-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: #94a3b8;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .retry-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            font-family: inherit;
+        }
+
+        .retry-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .retry-button:active {
+            transform: translateY(0);
+        }
+
+        .retry-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .tips {
+            margin-top: 2.5rem;
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tips-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 0.75rem;
+        }
+
+        .tips-list {
+            list-style: none;
+            font-size: 0.8125rem;
+            color: #94a3b8;
+            text-align: right;
+        }
+
+        .tips-list li {
+            padding: 0.375rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tips-list li::before {
+            content: "•";
+            color: #60a5fa;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 2px solid rgba(96, 165, 250, 0.3);
+            animation: pulse 2s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .decoration {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .decoration-1 {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            right: -100px;
+        }
+
+        .decoration-2 {
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            left: -150px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+        }
+
+        .language-switch {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .language-switch:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #e2e8f0;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="decoration decoration-1"></div>
+    <div class="decoration decoration-2"></div>
+    
+    <a href="/offline-en.html" class="language-switch">English</a>
+
+    <div class="container">
+        <div class="logo-container">
+            <div class="pulse-ring"></div>
+            <img src="/images/stc-logo.jpg" alt="مركز د. صبري للتدريب" onerror="this.style.display='none'">
+        </div>
+
+        <div class="offline-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18" />
+            </svg>
+        </div>
+
+        <h1>لا يوجد اتصال بالإنترنت</h1>
+        
+        <p class="subtitle">
+            يبدو أنك غير متصل بالإنترنت. تحقق من اتصالك وحاول مرة أخرى.
+        </p>
+
+        <button class="retry-button" onclick="window.location.reload()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            إعادة المحاولة
+        </button>
+
+        <div class="tips">
+            <div class="tips-title">نصائح سريعة</div>
+            <ul class="tips-list">
+                <li>تحقق من اتصال Wi-Fi أو بيانات الهاتف</li>
+                <li>تأكد من عدم تفعيل وضع الطيران</li>
+                <li>أعد تشغيل الموجه (Router) إذا لزم الأمر</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Auto-retry when connection is restored
+        window.addEventListener('online', () => {
+            window.location.reload();
+        });
+
+        // Check connection every 5 seconds
+        setInterval(() => {
+            if (navigator.onLine) {
+                window.location.reload();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

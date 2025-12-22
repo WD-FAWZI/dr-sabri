@@ -11,13 +11,13 @@
     "lang": "ar",
     "icons": [
         {
-            "src": "/images/dr-sabri.jpg",
+            "src": "/images/stc-logo.jpg",
             "sizes": "192x192",
             "type": "image/jpeg",
             "purpose": "any"
         },
         {
-            "src": "/images/dr-sabri.jpg",
+            "src": "/images/stc-logo.jpg",
             "sizes": "512x512",
             "type": "image/jpeg",
             "purpose": "any maskable"
@@ -31,7 +31,7 @@
             "url": "/ar/verify",
             "icons": [
                 {
-                    "src": "/images/dr-sabri.jpg",
+                    "src": "/images/stc-logo.jpg",
                     "sizes": "96x96"
                 }
             ]
@@ -43,7 +43,7 @@
             "url": "/ar/contact",
             "icons": [
                 {
-                    "src": "/images/dr-sabri.jpg",
+                    "src": "/images/stc-logo.jpg",
                     "sizes": "96x96"
                 }
             ]

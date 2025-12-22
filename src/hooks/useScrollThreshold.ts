@@ -12,6 +12,9 @@ export function useScrollThreshold(threshold = 20): boolean {
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
+        // SSR safety check - window doesn't exist during prerendering
+        if (typeof window === 'undefined') return;
+
         let ticking = false;
 
         const handleScroll = () => {

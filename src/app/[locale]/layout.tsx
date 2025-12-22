@@ -4,6 +4,7 @@ import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { Tajawal, Inter } from 'next/font/google';
+import NetworkStatusBanner from '@/components/ui/NetworkStatusBanner';
 import '../globals.css';
 
 // Arabic font - Tajawal (optimized for Arabic text)
@@ -79,9 +80,28 @@ export default async function LocaleLayout({
                         </Script>
                     </>
                 )}
+
+                {/* Service Worker Registration */}
+                <Script id="sw-registration" strategy="afterInteractive">
+                    {`
+                        if ('serviceWorker' in navigator) {
+                            window.addEventListener('load', function() {
+                                navigator.serviceWorker.register('/sw.js').then(
+                                    function(registration) {
+                                        console.log('ServiceWorker registration successful');
+                                    },
+                                    function(err) {
+                                        console.log('ServiceWorker registration failed: ', err);
+                                    }
+                                );
+                            });
+                        }
+                    `}
+                </Script>
             </head>
             <body className="min-h-screen bg-slate-900 text-slate-100 antialiased">
                 <NextIntlClientProvider messages={messages}>
+                    <NetworkStatusBanner />
                     {children}
                 </NextIntlClientProvider>
             </body>
