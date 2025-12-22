@@ -4,6 +4,10 @@
 > **Version**: 1.0  
 > **Last Updated**: December 22, 2025
 
+### Visual Color Palette
+
+![STC Color Palette](color-palette.png)
+
 ---
 
 ## 🎨 Color Palette

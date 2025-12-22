@@ -161,6 +161,25 @@ This website is a **Progressive Web App**:
 
 ---
 
+## 🎨 Design Documentation
+
+Comprehensive design system documentation is available in the `docs/` folder:
+
+| Document | Description |
+|----------|-------------|
+| [**design-prompt.md**](docs/design-prompt.md) | Text-to-design prompts for AI tools (full, condensed, ultra-short versions) |
+| [**style-guide.md**](docs/style-guide.md) | Complete visual style guide with colors, typography, components, animations |
+| [**page-analysis.md**](docs/page-analysis.md) | Page-by-page breakdown with wireframes and component details |
+
+### Quick Design Summary
+
+- **Theme**: Dark mode with slate backgrounds (`#0f172a`)
+- **Accents**: Indigo (`#6366f1`) + Teal (`#14b8a6`) gradients
+- **Style**: Glassmorphism cards, glowing buttons, premium animations
+- **Fonts**: Inter (English) / Tajawal (Arabic)
+
+---
+
 ## 📄 License
 
 This project is **proprietary** and confidential. All rights reserved.
