@@ -6,6 +6,8 @@ import Script from 'next/script';
 import { Tajawal, Inter } from 'next/font/google';
 import NetworkStatusBanner from '@/components/ui/NetworkStatusBanner';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
+import InstallAppButton from '@/components/pwa/InstallAppButton';
+import PageTransitionWrapper from '@/components/layout/PageTransitionWrapper';
 import '../globals.css';
 
 // Arabic font - Tajawal (optimized for Arabic text)
@@ -105,8 +107,10 @@ export default async function LocaleLayout({
                     <NetworkStatusBanner />
                     {children}
                     <WhatsAppButton locale={locale} />
+                    <InstallAppButton />
                 </NextIntlClientProvider>
             </body>
         </html>
     );
 }
+

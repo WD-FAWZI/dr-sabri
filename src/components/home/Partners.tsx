@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
+import { STC_LOGO_BLUR } from '@/lib/imageBlurData';
 import { fadeInUpSpring, springTransition } from '@/lib/animations';
 
 /**
@@ -47,7 +48,7 @@ export default function Partners({ locale }: { locale: string }) {
                         {...logoHoverProps}
                         className="group flex flex-col items-center gap-3 cursor-pointer opacity-60 hover:opacity-100 transition-opacity duration-500"
                     >
-                        <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center grayscale group-hover:grayscale-0 transition-all duration-500 border border-slate-700 group-hover:border-indigo-500 shadow-none group-hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] overflow-hidden">
+                        <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center grayscale group-hover:grayscale-0 transition-[filter,border-color,box-shadow] duration-500 border border-slate-700 group-hover:border-indigo-500 shadow-none group-hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] overflow-hidden">
                             <Image
                                 src="/images/stc-logo.jpg"
                                 alt="STC Logo"
@@ -57,6 +58,8 @@ export default function Partners({ locale }: { locale: string }) {
                                 loading="lazy"
                                 quality={80}
                                 sizes="96px"
+                                placeholder="blur"
+                                blurDataURL={STC_LOGO_BLUR}
                             />
                         </div>
                         <span className="text-sm font-bold text-slate-400 group-hover:text-indigo-400 transition-colors">

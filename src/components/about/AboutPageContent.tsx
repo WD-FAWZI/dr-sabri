@@ -2,31 +2,25 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { DR_SABRI_BLUR } from '@/lib/imageBlurData';
 import { Target, Award, Users, Globe, Heart, Lightbulb, Shield, Sparkles } from 'lucide-react';
 import CountUp from '@/components/ui/CountUp';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { staggerContainer, fadeInUpSpring, springTransition } from '@/lib/animations';
+import { useAnimationConfig } from '@/hooks/useAnimationConfig';
+import { easings, createStaggerContainer, createFadeInUpVariant } from '@/lib/animations';
 
 /**
  * === ABOUT PAGE CONTENT ===
- * Uses centralized animation utilities from @/lib/animations
+ * Luxury animations with device-aware configurations
  * - Respects prefers-reduced-motion
- * - Spring-based physics for natural feel
+ * - Device-aware spring physics (mobile vs desktop)
  * - Staggered children for smooth loading
+ * - Animated background orbs
+ * - Blur-in entrance effects
  */
-
-// Item variant for stagger children - using spring physics
-const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: springTransition,
-    },
-};
 
 interface AboutPageContentProps {
     locale: string;
@@ -34,7 +28,68 @@ interface AboutPageContentProps {
 
 export default function AboutPageContent({ locale }: AboutPageContentProps) {
     const t = useTranslations('about');
-    const shouldReduceMotion = useReducedMotion();
+    const { shouldAnimate, spring, staggerDelay, viewportMargin } = useAnimationConfig();
+
+    // Create device-aware variants
+    const staggerContainer = createStaggerContainer(staggerDelay);
+    const fadeInUpVariant = createFadeInUpVariant(spring);
+
+    // Enhanced item variant with blur effect
+    const itemVariants = {
+        hidden: {
+            opacity: 0,
+            y: 30,
+            filter: 'blur(4px)',
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            transition: {
+                ...spring,
+                duration: 0.5,
+                ease: easings.easeOutExpo,
+            },
+        },
+    };
+
+    // Header variants with scale
+    const headerVariants = {
+        hidden: {
+            opacity: 0,
+            y: 40,
+            scale: 0.98,
+            filter: 'blur(8px)',
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: 'blur(0px)',
+            transition: {
+                duration: 0.6,
+                ease: easings.easeOutExpo,
+            },
+        },
+    };
+
+    // Card variants with glow
+    const cardVariants = {
+        hidden: {
+            opacity: 0,
+            y: 40,
+            scale: 0.97,
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            transition: {
+                duration: 0.5,
+                ease: easings.easeOutExpo,
+            },
+        },
+    };
 
     const values = [
         {
@@ -80,27 +135,27 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
         },
     ];
 
-    // Animation props - disabled when user prefers reduced motion
-    const getAnimationProps = (variant: typeof fadeInUpSpring) => {
-        if (shouldReduceMotion) {
-            return {}; // No animation
+    // Animation props helper
+    const getAnimationProps = (variants: typeof fadeInUpVariant) => {
+        if (!shouldAnimate) {
+            return {};
         }
         return {
             initial: "hidden",
             whileInView: "visible",
-            viewport: { once: true, margin: '-50px' },
-            variants: variant,
+            viewport: { once: true, margin: viewportMargin },
+            variants,
         };
     };
 
-    const getInitialAnimationProps = (variant: typeof fadeInUpSpring) => {
-        if (shouldReduceMotion) {
+    const getInitialAnimationProps = (variants: typeof fadeInUpVariant) => {
+        if (!shouldAnimate) {
             return {};
         }
         return {
             initial: "hidden",
             animate: "visible",
-            variants: variant,
+            variants,
         };
     };
 
@@ -108,35 +163,108 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
         <>
             <Navbar locale={locale} />
 
-            <main className="min-h-screen bg-slate-900 pt-32 pb-20">
-                {/* Hero Section */}
-                <div className="max-w-6xl mx-auto px-6 mb-20">
+            <main className="min-h-screen bg-slate-900 pt-32 pb-20 relative overflow-hidden">
+                {/* Animated Background Orbs */}
+                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                     <motion.div
-                        {...getInitialAnimationProps(fadeInUpSpring)}
+                        className="absolute top-20 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-[150px]"
+                        animate={shouldAnimate ? {
+                            x: [0, 30, 0],
+                            y: [0, -20, 0],
+                        } : undefined}
+                        transition={{
+                            duration: 10,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                    />
+                    <motion.div
+                        className="absolute top-1/2 right-1/4 w-80 h-80 bg-teal-500/5 rounded-full blur-[120px]"
+                        animate={shouldAnimate ? {
+                            x: [0, -20, 0],
+                            y: [0, 25, 0],
+                        } : undefined}
+                        transition={{
+                            duration: 12,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: 2,
+                        }}
+                    />
+                    <motion.div
+                        className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-purple-500/3 rounded-full blur-[100px]"
+                        animate={shouldAnimate ? {
+                            x: [0, 15, 0],
+                            y: [0, -15, 0],
+                        } : undefined}
+                        transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: 1,
+                        }}
+                    />
+                </div>
+
+                {/* Hero Section */}
+                <div className="max-w-6xl mx-auto px-6 mb-20 relative z-10">
+                    <motion.div
+                        {...getInitialAnimationProps(headerVariants)}
                         className="text-center space-y-4"
                     >
-                        <h1 className="text-4xl md:text-5xl font-bold text-white">
+                        <motion.h1
+                            className="text-4xl md:text-5xl font-bold text-white"
+                            initial={shouldAnimate ? { opacity: 0, y: 30, filter: 'blur(8px)' } : undefined}
+                            animate={shouldAnimate ? { opacity: 1, y: 0, filter: 'blur(0px)' } : undefined}
+                            transition={{ duration: 0.6, ease: easings.easeOutExpo }}
+                        >
                             {t('title')}
-                        </h1>
-                        <p className="text-xl text-indigo-400 font-medium">
+                        </motion.h1>
+                        <motion.p
+                            className="text-xl text-indigo-400 font-medium"
+                            initial={shouldAnimate ? { opacity: 0, y: 20 } : undefined}
+                            animate={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
+                            transition={{ duration: 0.5, delay: 0.2, ease: easings.easeOutExpo }}
+                        >
                             {t('subtitle')}
-                        </p>
+                        </motion.p>
                     </motion.div>
                 </div>
 
                 {/* Mission & Vision */}
-                <div className="max-w-6xl mx-auto px-6 mb-24">
+                <div className="max-w-6xl mx-auto px-6 mb-24 relative z-10">
                     <motion.div
-                        {...getAnimationProps(fadeInUpSpring)}
+                        {...getAnimationProps(cardVariants)}
                         className="glass-card rounded-3xl p-8 md:p-12"
+                        whileHover={shouldAnimate ? {
+                            boxShadow: "0 20px 60px rgba(99, 102, 241, 0.1)",
+                        } : undefined}
+                        transition={{ duration: 0.3 }}
                     >
-                        <h2 className="text-3xl font-bold text-white mb-8 text-center">
+                        <motion.h2
+                            className="text-3xl font-bold text-white mb-8 text-center"
+                            initial={shouldAnimate ? { opacity: 0, y: 20 } : undefined}
+                            whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, ease: easings.easeOutExpo }}
+                        >
                             {t('mission.title')}
-                        </h2>
+                        </motion.h2>
                         <div className="grid md:grid-cols-2 gap-8">
-                            <div className="space-y-3">
+                            <motion.div
+                                className="space-y-3"
+                                initial={shouldAnimate ? { opacity: 0, x: -30 } : undefined}
+                                whileInView={shouldAnimate ? { opacity: 1, x: 0 } : undefined}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: 0.1, ease: easings.easeOutExpo }}
+                            >
                                 <div className="flex items-center gap-2 mb-3">
-                                    <Target className="text-teal-400" size={24} />
+                                    <motion.div
+                                        whileHover={shouldAnimate ? { rotate: 15, scale: 1.1 } : undefined}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        <Target className="text-teal-400" size={24} />
+                                    </motion.div>
                                     <h3 className="text-xl font-bold text-white">
                                         {locale === 'ar' ? 'الرؤية' : 'Vision'}
                                     </h3>
@@ -144,10 +272,21 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                                 <p className="text-slate-300 leading-relaxed">
                                     {t('mission.vision')}
                                 </p>
-                            </div>
-                            <div className="space-y-3">
+                            </motion.div>
+                            <motion.div
+                                className="space-y-3"
+                                initial={shouldAnimate ? { opacity: 0, x: 30 } : undefined}
+                                whileInView={shouldAnimate ? { opacity: 1, x: 0 } : undefined}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: 0.2, ease: easings.easeOutExpo }}
+                            >
                                 <div className="flex items-center gap-2 mb-3">
-                                    <Sparkles className="text-indigo-400" size={24} />
+                                    <motion.div
+                                        whileHover={shouldAnimate ? { rotate: -15, scale: 1.1 } : undefined}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        <Sparkles className="text-indigo-400" size={24} />
+                                    </motion.div>
                                     <h3 className="text-xl font-bold text-white">
                                         {locale === 'ar' ? 'الرسالة' : 'Mission'}
                                     </h3>
@@ -155,15 +294,18 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                                 <p className="text-slate-300 leading-relaxed">
                                     {t('mission.mission')}
                                 </p>
-                            </div>
+                            </motion.div>
                         </div>
                     </motion.div>
                 </div>
 
-                {/* Core Values - ANIMATED ICONS */}
-                <div className="max-w-6xl mx-auto px-6 mb-24">
+                {/* Core Values */}
+                <div className="max-w-6xl mx-auto px-6 mb-24 relative z-10">
                     <motion.div
-                        {...getAnimationProps(staggerContainer)}
+                        initial={shouldAnimate ? "hidden" : undefined}
+                        whileInView={shouldAnimate ? "visible" : undefined}
+                        viewport={{ once: true, margin: viewportMargin }}
+                        variants={staggerContainer}
                     >
                         <motion.h2
                             variants={itemVariants}
@@ -191,16 +333,17 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                                     <motion.div
                                         key={index}
                                         variants={itemVariants}
-                                        className="glass-card rounded-2xl p-6 transition-all duration-300 group"
-                                        whileHover={shouldReduceMotion ? {} : {
-                                            y: -3,
+                                        className="glass-card rounded-2xl p-6 transition-transform duration-300 group"
+                                        whileHover={!shouldAnimate ? {} : {
+                                            y: -5,
+                                            boxShadow: "0 15px 40px rgba(99, 102, 241, 0.15)",
                                             transition: { duration: 0.2 }
                                         }}
                                     >
                                         {/* Icon with subtle colored glow on hover */}
                                         <div className="mb-4">
                                             <value.icon
-                                                className={`transition-all duration-300 ${iconColors[index]} ${glowColors[index]}`}
+                                                className={`transition-[color,filter] duration-300 ${iconColors[index]} ${glowColors[index]}`}
                                                 size={40}
                                             />
                                         </div>
@@ -218,10 +361,13 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 </div>
 
                 {/* Founder Section */}
-                <div className="max-w-6xl mx-auto px-6 mb-24">
+                <div className="max-w-6xl mx-auto px-6 mb-24 relative z-10">
                     <motion.div
-                        {...getAnimationProps(fadeInUpSpring)}
+                        {...getAnimationProps(cardVariants)}
                         className="glass-card rounded-3xl p-8 md:p-12"
+                        whileHover={shouldAnimate ? {
+                            boxShadow: "0 20px 60px rgba(99, 102, 241, 0.1)",
+                        } : undefined}
                     >
                         <div className="grid md:grid-cols-3 gap-8 items-center">
                             <div className="md:col-span-1 flex justify-center">
@@ -236,6 +382,8 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                                             loading="lazy"
                                             quality={85}
                                             sizes="192px"
+                                            placeholder="blur"
+                                            blurDataURL={DR_SABRI_BLUR}
                                         />
                                     </div>
                                 </div>
@@ -275,20 +423,20 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                                 const iconAnimations = [
                                     // Users - Gentle bounce in (from small to normal)
                                     {
-                                        initial: shouldReduceMotion ? {} : { scale: 0.5, opacity: 0 },
-                                        whileInView: shouldReduceMotion ? {} : { scale: 1, opacity: 1 },
+                                        initial: !shouldAnimate ? {} : { scale: 0.5, opacity: 0 },
+                                        whileInView: !shouldAnimate ? {} : { scale: 1, opacity: 1 },
                                         transition: { type: "spring" as const, stiffness: 200, damping: 15, delay: 0.2 },
                                     },
                                     // Target - Arrow hitting target (from big to normal)
                                     {
-                                        initial: shouldReduceMotion ? {} : { scale: 1.5, opacity: 0 },
-                                        whileInView: shouldReduceMotion ? {} : { scale: 1, opacity: 1 },
+                                        initial: !shouldAnimate ? {} : { scale: 1.5, opacity: 0 },
+                                        whileInView: !shouldAnimate ? {} : { scale: 1, opacity: 1 },
                                         transition: { type: "spring" as const, stiffness: 300, damping: 20, delay: 0.3 },
                                     },
                                     // Globe - Rotation entrance (rotates 30 degrees)
                                     {
-                                        initial: shouldReduceMotion ? {} : { rotate: -30, opacity: 0 },
-                                        whileInView: shouldReduceMotion ? {} : { rotate: 0, opacity: 1 },
+                                        initial: !shouldAnimate ? {} : { rotate: -30, opacity: 0 },
+                                        whileInView: !shouldAnimate ? {} : { rotate: 0, opacity: 1 },
                                         transition: { type: "spring" as const, stiffness: 150, damping: 12, delay: 0.4 },
                                     },
                                 ];
@@ -329,10 +477,13 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                 </div>
 
                 {/* Accreditations */}
-                <div className="max-w-6xl mx-auto px-6">
+                <div className="max-w-6xl mx-auto px-6 relative z-10">
                     <motion.div
-                        {...getAnimationProps(fadeInUpSpring)}
+                        {...getAnimationProps(cardVariants)}
                         className="glass-card rounded-3xl p-8 md:p-12 text-center"
+                        whileHover={shouldAnimate ? {
+                            boxShadow: "0 20px 60px rgba(99, 102, 241, 0.1)",
+                        } : undefined}
                     >
                         <h2 className="text-3xl font-bold text-white mb-4">
                             {t('accreditations.title')}

@@ -199,7 +199,7 @@ h3 {
   justify-content: center;
   gap: 0.5rem;
   font-weight: 600;
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), background-color var(--transition-base), border-color var(--transition-base);
   cursor: pointer;
 }
 

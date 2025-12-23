@@ -2,36 +2,45 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { staggerContainer, fadeInUpSpring, scaleInSpring } from '@/lib/animations';
+import { DR_SABRI_BLUR } from '@/lib/imageBlurData';
+import { useAnimationConfig } from '@/hooks/useAnimationConfig';
+import { createStaggerContainer, createFadeInUpVariant, scaleInSpring } from '@/lib/animations';
 import MotionButton from '@/components/ui/MotionButton';
 
 /**
  * Hero - Main hero section with Dr. Sabri's introduction
  * Features:
- * - Staggered entrance animations with spring physics
+ * - Device-aware staggered entrance animations
+ * - Desktop: Luxurious springs | Mobile: Snappy springs
  * - Elements animate one-by-one (avatar → headline → subheadline → buttons)
  * - Tactile MotionButton for CTAs
- * - Performance optimized with prefers-reduced-motion support
+ * - Full prefers-reduced-motion support
  */
 export default function Hero({ locale }: { locale: string }) {
     const t = useTranslations('hero');
     const [imageError, setImageError] = useState(false);
-    const shouldReduceMotion = useReducedMotion();
+
+    // Device-aware animation config
+    const { spring, shouldAnimate, staggerDelay } = useAnimationConfig();
+
+    // Create device-optimized variants
+    const staggerContainer = createStaggerContainer(staggerDelay);
+    const fadeInUpVariant = createFadeInUpVariant(spring);
 
     // Container animation props
-    const containerProps = shouldReduceMotion
-        ? {}
-        : {
+    const containerProps = shouldAnimate
+        ? {
             initial: "hidden",
             animate: "visible",
             variants: staggerContainer,
-        };
+        }
+        : {};
 
     // Item animation props
-    const itemProps = shouldReduceMotion ? {} : { variants: fadeInUpSpring };
-    const scaleItemProps = shouldReduceMotion ? {} : { variants: scaleInSpring };
+    const itemProps = shouldAnimate ? { variants: fadeInUpVariant } : {};
+    const scaleItemProps = shouldAnimate ? { variants: scaleInSpring } : {};
 
     return (
         <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
@@ -56,6 +65,8 @@ export default function Hero({ locale }: { locale: string }) {
                                     priority
                                     quality={85}
                                     sizes="128px"
+                                    placeholder="blur"
+                                    blurDataURL={DR_SABRI_BLUR}
                                     onError={() => setImageError(true)}
                                 />
                             ) : (

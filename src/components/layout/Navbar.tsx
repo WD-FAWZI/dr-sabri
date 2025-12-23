@@ -5,17 +5,24 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollThreshold } from '@/hooks/useScrollThreshold';
+import { useAnimationConfig } from '@/hooks/useAnimationConfig';
+import { easings } from '@/lib/animations';
 import LanguageSwitcher from '../ui/LanguageSwitcher';
 
 /**
  * Navbar - Main navigation component with i18n and mobile support
- * Migrated and enhanced from original DR.SABRY-CODE.txt
+ * Features:
+ * - Device-aware animations via useAnimationConfig
+ * - Standardized Apple-style easing curves
+ * - Optimized transition durations (300ms instead of 500ms)
  */
 export default function Navbar({ locale }: { locale: string }) {
     const t = useTranslations('nav');
     const isScrolled = useScrollThreshold(20);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+    // Device-aware animation config
+    const { shouldAnimate, staggerDelay } = useAnimationConfig();
 
     const navLinks = useMemo(
         () => [
@@ -29,7 +36,7 @@ export default function Navbar({ locale }: { locale: string }) {
 
     return (
         <nav
-            className={`fixed w-full z-[100] transition-all duration-500 ${isScrolled
+            className={`fixed w-full z-[100] transition-[padding,background-color,box-shadow] duration-300 ${isScrolled
                 ? 'py-4 backdrop-blur-xl bg-gradient-to-b from-slate-900/80 via-slate-900/70 to-slate-900/60 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]'
                 : 'py-8 bg-transparent'
                 }`}
@@ -70,7 +77,7 @@ export default function Navbar({ locale }: { locale: string }) {
                     <div className="relative w-6 h-5 flex flex-col justify-between">
                         {/* Top Line */}
                         <span
-                            className={`block h-0.5 w-full bg-white rounded-full transition-all duration-300 ease-out origin-center ${isMobileMenuOpen
+                            className={`block h-0.5 w-full bg-white rounded-full transition-transform duration-300 ease-out origin-center ${isMobileMenuOpen
                                 ? 'rotate-45 translate-y-[9px]'
                                 : 'rotate-0 translate-y-0'
                                 }`}
@@ -78,13 +85,13 @@ export default function Navbar({ locale }: { locale: string }) {
 
                         {/* Middle Line */}
                         <span
-                            className={`block h-0.5 w-full bg-white rounded-full transition-all duration-300 ease-out ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
+                            className={`block h-0.5 w-full bg-white rounded-full transition-[opacity,transform] duration-300 ease-out ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
                                 }`}
                         />
 
                         {/* Bottom Line */}
                         <span
-                            className={`block h-0.5 w-full bg-white rounded-full transition-all duration-300 ease-out origin-center ${isMobileMenuOpen
+                            className={`block h-0.5 w-full bg-white rounded-full transition-transform duration-300 ease-out origin-center ${isMobileMenuOpen
                                 ? '-rotate-45 -translate-y-[9px]'
                                 : 'rotate-0 translate-y-0'
                                 }`}
@@ -96,16 +103,28 @@ export default function Navbar({ locale }: { locale: string }) {
                 </button>
             </div>
 
-            {/* Mobile Menu - SIMPLE: Single container with solid background */}
-            <AnimatePresence>
+            {/* Mobile Menu - with luxurious animation */}
+            <AnimatePresence mode="wait">
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
+                        initial={shouldAnimate ? {
+                            opacity: 0,
+                            scale: 0.95,
+                            filter: 'blur(10px)'
+                        } : undefined}
+                        animate={shouldAnimate ? {
+                            opacity: 1,
+                            scale: 1,
+                            filter: 'blur(0px)'
+                        } : undefined}
+                        exit={shouldAnimate ? {
+                            opacity: 0,
+                            scale: 1.02,
+                            filter: 'blur(5px)'
+                        } : undefined}
                         transition={{
-                            duration: 0.3,
-                            ease: [0.22, 1, 0.36, 1]
+                            duration: 0.4,
+                            ease: easings.easeOutExpo,
                         }}
                         className="fixed inset-0 top-0 left-0 w-full min-h-screen bg-slate-900 z-[99] flex flex-col items-center justify-center"
                         style={{ backgroundColor: '#0f172a' }}
@@ -119,38 +138,67 @@ export default function Navbar({ locale }: { locale: string }) {
                             {navLinks.map((link, index) => (
                                 <motion.div
                                     key={link.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: 10 }}
+                                    initial={shouldAnimate ? {
+                                        opacity: 0,
+                                        y: 40,
+                                        scale: 0.9,
+                                        filter: 'blur(4px)'
+                                    } : undefined}
+                                    animate={shouldAnimate ? {
+                                        opacity: 1,
+                                        y: 0,
+                                        scale: 1,
+                                        filter: 'blur(0px)'
+                                    } : undefined}
+                                    exit={shouldAnimate ? {
+                                        opacity: 0,
+                                        y: -20,
+                                        scale: 0.95
+                                    } : undefined}
                                     transition={{
-                                        duration: 0.4,
-                                        delay: index * 0.08,
-                                        ease: [0.25, 0.46, 0.45, 0.94]
+                                        duration: 0.5,
+                                        delay: 0.1 + index * 0.08,
+                                        ease: easings.easeOutBack,
                                     }}
                                 >
                                     <Link
                                         href={link.href}
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="group relative text-3xl font-bold text-white transition-all duration-300 hover:scale-105"
+                                        className="group relative text-3xl font-bold text-white transition-all duration-300 hover:scale-110"
                                     >
                                         <span className="relative group-hover:text-indigo-400 transition-colors duration-300">
                                             {link.label}
                                         </span>
+                                        {/* Underline effect on hover */}
+                                        <motion.span
+                                            className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 group-hover:w-full transition-all duration-300"
+                                        />
                                     </Link>
                                 </motion.div>
                             ))}
 
                             {/* Language Switcher */}
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 10 }}
+                                initial={shouldAnimate ? {
+                                    opacity: 0,
+                                    y: 30,
+                                    scale: 0.9
+                                } : undefined}
+                                animate={shouldAnimate ? {
+                                    opacity: 1,
+                                    y: 0,
+                                    scale: 1
+                                } : undefined}
+                                exit={shouldAnimate ? {
+                                    opacity: 0,
+                                    y: -10
+                                } : undefined}
                                 transition={{
-                                    duration: 0.4,
-                                    delay: navLinks.length * 0.08,
-                                    ease: [0.25, 0.46, 0.45, 0.94]
+                                    duration: 0.5,
+                                    delay: 0.1 + navLinks.length * 0.08,
+                                    ease: easings.easeOutBack,
                                 }}
-                                className="mt-8"
+                                className="mt-10"
                             >
                                 <LanguageSwitcher locale={locale} />
                             </motion.div>
@@ -158,9 +206,9 @@ export default function Navbar({ locale }: { locale: string }) {
 
                         {/* Close Hint */}
                         <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            initial={shouldAnimate ? { opacity: 0 } : undefined}
+                            animate={shouldAnimate ? { opacity: 1 } : undefined}
+                            exit={shouldAnimate ? { opacity: 0 } : undefined}
                             transition={{ delay: 0.5, duration: 0.3 }}
                             className="absolute bottom-12 text-sm text-slate-500"
                         >

@@ -1,47 +1,38 @@
 [
     {
         "id": "STC-2024-001",
-        "studentName": "أحمد محمد علي",
-        "studentNameEn": "Ahmed Mohammed Ali",
-        "courseName": "دورة USMLE Step 1 التحضيرية",
-        "courseNameEn": "USMLE Step 1 Preparation Course",
+        "studentName": "محمد فوزي يوسف محمد",
+        "studentNameEn": "Mohamed Fawzi Yousef Mohamed",
+        "courseName": "أساسيات الإسعافات الأولية والإنعاش القلبي الرئوي",
+        "courseNameEn": "The Basics of First Aid & CPR",
         "issueDate": "2024-03-15",
         "status": "valid"
     },
     {
         "id": "STC-2024-002",
-        "studentName": "فاطمة أحمد حسن",
-        "studentNameEn": "Fatima Ahmed Hassan",
-        "courseName": "دورة تخطيط القلب (ECG) المتقدمة",
-        "courseNameEn": "Advanced ECG Interpretation Course",
+        "studentName": "محمد فوزي يوسف محمد",
+        "studentNameEn": "Mohamed Fawzi Yousef Mohamed",
+        "courseName": "أساسيات تخطيط القلب",
+        "courseNameEn": "Fundamental of ECG",
         "issueDate": "2024-04-20",
         "status": "valid"
     },
     {
         "id": "STC-2024-003",
-        "studentName": "محمد عبدالله سعيد",
-        "studentNameEn": "Mohammed Abdullah Saeed",
-        "courseName": "دورة الموجات فوق الصوتية للنساء والتوليد",
-        "courseNameEn": "OBGYN Ultrasound Course",
+        "studentName": "محمد فوزي يوسف محمد",
+        "studentNameEn": "Mohamed Fawzi Yousef Mohamed",
+        "courseName": "دورة تخطيط القلب المتقدمة",
+        "courseNameEn": "Advance ECG Course",
         "issueDate": "2024-05-10",
         "status": "valid"
     },
     {
         "id": "STC-2024-004",
-        "studentName": "سارة علي إبراهيم",
-        "studentNameEn": "Sara Ali Ibrahim",
-        "courseName": "دورة مكافحة العدوى في التمريض",
-        "courseNameEn": "Infection Control in Nursing Course",
+        "studentName": "محمد فوزي يوسف محمد",
+        "studentNameEn": "Mohamed Fawzi Yousef Mohamed",
+        "courseName": "اختبار وظائف الرئة",
+        "courseNameEn": "Pulmonary Function Test",
         "issueDate": "2024-06-01",
-        "status": "valid"
-    },
-    {
-        "id": "STC-2024-005",
-        "studentName": "عمر حسن محمود",
-        "studentNameEn": "Omar Hassan Mahmoud",
-        "courseName": "دورة MRCOG Part 1",
-        "courseNameEn": "MRCOG Part 1 Preparation",
-        "issueDate": "2024-07-15",
         "status": "valid"
     }
 ]

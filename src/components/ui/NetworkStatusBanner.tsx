@@ -49,7 +49,7 @@ export default function NetworkStatusBanner() {
                 fixed top-0 left-0 right-0 z-[9999] 
                 flex items-center justify-center gap-2
                 px-4 py-2 text-sm font-medium
-                transition-all duration-300 ease-out
+                transition-[transform,opacity,background-color] duration-300 ease-out
                 ${isOnline
                     ? 'bg-emerald-500/95 text-white translate-y-0'
                     : 'bg-red-500/95 text-white translate-y-0'

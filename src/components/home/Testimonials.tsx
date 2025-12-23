@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Quote, Star } from 'lucide-react';
-import { staggerContainer, springTransition } from '@/lib/animations';
+import { useAnimationConfig } from '@/hooks/useAnimationConfig';
+import { createStaggerContainer, createFadeInUpVariant, standardTransition, fastTransition } from '@/lib/animations';
 
 interface TestimonialsProps {
     locale: string;
@@ -53,23 +54,20 @@ const testimonials: Testimonial[] = [
     },
 ];
 
-// Spring-based card variants for natural, modern feel
-const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: springTransition,
-    },
-};
-
 /**
  * Testimonials - Student success stories section
- * Essential for building trust, especially in Sudanese market
+ * Features:
+ * - Device-aware animations (luxurious on desktop, snappy on mobile)
+ * - Essential for building trust, especially in Sudanese market
  */
 export default function Testimonials({ locale }: TestimonialsProps) {
-    const shouldReduceMotion = useReducedMotion();
+    // Device-aware animation config
+    const { spring, shouldAnimate, staggerDelay, viewportMargin } = useAnimationConfig();
     const isRTL = locale === 'ar';
+
+    // Create device-optimized variants
+    const staggerContainer = createStaggerContainer(staggerDelay);
+    const cardVariants = createFadeInUpVariant(spring);
 
     const sectionTitle = isRTL ? 'ماذا يقول خريجونا' : 'What Our Graduates Say';
     const sectionSubtitle = isRTL
@@ -84,10 +82,10 @@ export default function Testimonials({ locale }: TestimonialsProps) {
             <div className="max-w-6xl mx-auto px-6 relative z-10">
                 {/* Section Header */}
                 <motion.div
-                    initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-                    whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+                    initial={shouldAnimate ? { opacity: 0, y: 20 } : undefined}
+                    whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    transition={standardTransition}
                     className="text-center mb-16"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -100,17 +98,17 @@ export default function Testimonials({ locale }: TestimonialsProps) {
 
                 {/* Testimonials Grid */}
                 <motion.div
-                    initial={shouldReduceMotion ? {} : 'hidden'}
-                    whileInView={shouldReduceMotion ? {} : 'visible'}
-                    viewport={{ once: true, margin: '-50px' }}
-                    variants={shouldReduceMotion ? {} : staggerContainer}
+                    initial={shouldAnimate ? 'hidden' : undefined}
+                    whileInView={shouldAnimate ? 'visible' : undefined}
+                    viewport={{ once: true, margin: viewportMargin }}
+                    variants={shouldAnimate ? staggerContainer : undefined}
                     className="grid md:grid-cols-3 gap-6"
                 >
                     {testimonials.map((testimonial) => (
                         <motion.div
                             key={testimonial.id}
-                            variants={shouldReduceMotion ? {} : cardVariants}
-                            whileHover={shouldReduceMotion ? {} : { y: -4, transition: { duration: 0.2 } }}
+                            variants={shouldAnimate ? cardVariants : undefined}
+                            whileHover={shouldAnimate ? { y: -4, transition: fastTransition } : undefined}
                             className="glass-card rounded-2xl p-6 relative group hover:border-indigo-500/30 transition-colors duration-300"
                         >
                             {/* Quote Icon */}

@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useAnimationConfig } from '@/hooks/useAnimationConfig';
 import { snappySpring, hoverScale, tapScale } from '@/lib/animations';
 
 /**
@@ -37,10 +38,11 @@ interface MotionButtonProps {
  * MotionButton - Reusable animated button with tactile feedback
  * 
  * Features:
+ * - Device-aware animation config via useAnimationConfig
  * - whileHover scale: 1.05 with shadow intensification
  * - whileTap scale: 0.95 for tactile press feedback
  * - Full prefers-reduced-motion support
- * - Supports all Phase 1 button variants (primary, secondary, form, ghost)
+ * - Supports all button variants (primary, secondary, form, ghost)
  * - Polymorphic: renders as <button> or <a> based on href prop
  * 
  * Usage:
@@ -58,7 +60,8 @@ export default function MotionButton({
     type = 'button',
     'aria-label': ariaLabel,
 }: MotionButtonProps) {
-    const shouldReduceMotion = useReducedMotion();
+    // Device-aware animation config
+    const { shouldAnimate } = useAnimationConfig();
 
     // Map variant to CSS classes from globals.css
     const variantClasses: Record<ButtonVariant, string> = {
@@ -72,13 +75,13 @@ export default function MotionButton({
     const combinedClasses = `${baseClasses} ${className}`.trim();
 
     // Animation props - disabled when user prefers reduced motion
-    const motionProps = shouldReduceMotion
-        ? {}
-        : {
-            whileHover: disabled ? {} : hoverScale,
-            whileTap: disabled ? {} : tapScale,
+    const motionProps = shouldAnimate
+        ? {
+            whileHover: disabled ? undefined : hoverScale,
+            whileTap: disabled ? undefined : tapScale,
             transition: snappySpring,
-        };
+        }
+        : {};
 
     // Render as anchor if href is provided
     if (href) {
@@ -131,19 +134,20 @@ export function MotionLink({
     className?: string;
     'aria-label'?: string;
 }) {
-    const shouldReduceMotion = useReducedMotion();
+    // Device-aware animation config
+    const { shouldAnimate } = useAnimationConfig();
 
     const linkProps = external
         ? { target: '_blank', rel: 'noopener noreferrer' }
         : {};
 
-    const motionProps = shouldReduceMotion
-        ? {}
-        : {
+    const motionProps = shouldAnimate
+        ? {
             whileHover: hoverScale,
             whileTap: tapScale,
             transition: snappySpring,
-        };
+        }
+        : {};
 
     return (
         <motion.a

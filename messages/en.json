@@ -69,5 +69,13 @@
             "title": "Accreditations & Partnerships",
             "description": "We ensure our certificates are accredited and recognized locally and internationally"
         }
+    },
+    "pwa": {
+        "installTitle": "Install Dr. Sabri App",
+        "installDesc": "Install the app on your home screen for quick and easy access to our medical courses.",
+        "step1": "Tap the Share button in the browser toolbar.",
+        "step2": "Scroll down and select 'Add to Home Screen'.",
+        "gotIt": "Got it",
+        "installButton": "Install App"
     }
 }

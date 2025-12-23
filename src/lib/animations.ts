@@ -2,27 +2,64 @@ import { Variants, Transition } from 'framer-motion';
 
 /**
  * === CENTRALIZED ANIMATION UTILITIES ===
- * Premium motion design with spring-based physics
- * All animations respect prefers-reduced-motion via useReducedMotion hook
+ * Premium motion design with device-aware spring physics
+ * 
+ * Architecture:
+ * - Desktop: Luxurious, heavy springs for premium feel
+ * - Mobile: Snappy, responsive springs for battery efficiency
+ * - All animations respect prefers-reduced-motion
+ * 
+ * Use with useAnimationConfig hook for device detection
  */
 
 // ===================================
-// SPRING TRANSITION PRESETS
+// STANDARDIZED EASINGS (Single Source of Truth)
 // ===================================
 
 /**
- * Natural spring for general animations
- * Stiffness 100 creates a smooth, premium feel
+ * Apple-style easing curves for consistent brand feel
+ * These replace all ad-hoc cubic-bezier values across components
  */
-export const springTransition: Transition = {
+export const easings = {
+    /** Apple-style ease-out - smooth deceleration for entrances */
+    easeOutExpo: [0.16, 1, 0.3, 1] as const,
+    /** Snappy with slight overshoot - for micro-interactions */
+    easeOutBack: [0.34, 1.56, 0.64, 1] as const,
+    /** Smooth symmetrical - for reversible animations */
+    easeInOutCubic: [0.65, 0, 0.35, 1] as const,
+    /** Quick start, gentle end - for page transitions */
+    easeOutQuart: [0.25, 1, 0.5, 1] as const,
+} as const;
+
+// ===================================
+// DEVICE-AWARE SPRING CONFIGURATIONS
+// ===================================
+
+/**
+ * Luxurious spring for desktop - Heavy, premium feel
+ * Creates "weight" in animations that feels expensive
+ * Use on devices with good GPU (desktop, high-end tablets)
+ */
+export const luxuriousSpring: Transition = {
     type: "spring",
     stiffness: 100,
-    damping: 15,
+    damping: 20,
 };
 
 /**
- * Snappy spring for micro-interactions
- * Higher stiffness for immediate tactile feedback
+ * Mobile-optimized spring - Snappy, battery-efficient
+ * Higher stiffness = faster settling = less GPU work
+ * Use on mobile devices and low-power mode
+ */
+export const mobileSpring: Transition = {
+    type: "spring",
+    stiffness: 150,
+    damping: 25,
+};
+
+/**
+ * Snappy spring for micro-interactions (hover, tap)
+ * Same across all devices - interactions must feel immediate
  */
 export const snappySpring: Transition = {
     type: "spring",
@@ -31,12 +68,45 @@ export const snappySpring: Transition = {
 };
 
 /**
- * Gentle spring for subtle movements
+ * Gentle spring for subtle ambient movements
+ * Use sparingly - only for decorative elements
  */
 export const gentleSpring: Transition = {
     type: "spring",
     stiffness: 80,
     damping: 12,
+};
+
+// Legacy alias (backward compatibility)
+export const springTransition = luxuriousSpring;
+
+// ===================================
+// STANDARDIZED DURATION TRANSITIONS
+// ===================================
+
+/**
+ * Standard entrance transition with Apple easing
+ * Use when spring physics isn't appropriate
+ */
+export const standardTransition: Transition = {
+    duration: 0.4,
+    ease: easings.easeOutExpo,
+};
+
+/**
+ * Fast transition for UI feedback
+ */
+export const fastTransition: Transition = {
+    duration: 0.2,
+    ease: easings.easeOutExpo,
+};
+
+/**
+ * Page transition config
+ */
+export const pageTransition: Transition = {
+    duration: 0.3,
+    ease: easings.easeOutQuart,
 };
 
 // ===================================
@@ -46,76 +116,73 @@ export const gentleSpring: Transition = {
 /**
  * Container variant with staggered children
  * Use with whileInView for scroll-triggered animations
- * Children delay: 0.1s between each item
+ * @param staggerDelay - from useAnimationConfig().staggerDelay
  */
-export const staggerContainer: Variants = {
+export const createStaggerContainer = (staggerDelay: number = 0.1): Variants => ({
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.1,
-            delayChildren: 0.1,
+            staggerChildren: staggerDelay,
+            delayChildren: staggerDelay,
         },
     },
-};
+});
 
-/**
- * Fast stagger for lists with many items
- */
-export const staggerContainerFast: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.05,
-            delayChildren: 0.05,
-        },
-    },
-};
+/** Default stagger container (desktop timing) */
+export const staggerContainer: Variants = createStaggerContainer(0.1);
+
+/** Fast stagger for lists with many items */
+export const staggerContainerFast: Variants = createStaggerContainer(0.05);
+
+/** Mobile-optimized stagger */
+export const staggerContainerMobile: Variants = createStaggerContainer(0.05);
 
 // ===================================
 // ITEM VARIANTS (For use inside stagger containers)
 // ===================================
 
 /**
- * Fade in and slide up with spring physics
- * Default item animation for most use cases
+ * Create fade-in-up variant with device-appropriate spring
+ * @param spring - from useAnimationConfig().spring
  */
-export const fadeInUpSpring: Variants = {
+export const createFadeInUpVariant = (spring: Transition = luxuriousSpring): Variants => ({
     hidden: {
         opacity: 0,
-        y: 30
+        y: 30,
     },
     visible: {
         opacity: 1,
         y: 0,
-        transition: springTransition,
+        transition: spring,
     },
-};
+});
 
-/**
- * Simple fade in with spring
- */
+/** Fade in and slide up with luxurious spring (desktop default) */
+export const fadeInUpSpring: Variants = createFadeInUpVariant(luxuriousSpring);
+
+/** Fade in and slide up with mobile spring */
+export const fadeInUpMobile: Variants = createFadeInUpVariant(mobileSpring);
+
+/** Simple fade in with spring */
 export const fadeInSpring: Variants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: springTransition,
+        transition: luxuriousSpring,
     },
 };
 
-/**
- * Scale up from small with spring bounce
- */
+/** Scale up from small with spring bounce */
 export const scaleInSpring: Variants = {
     hidden: {
         opacity: 0,
-        scale: 0.8
+        scale: 0.8,
     },
     visible: {
         opacity: 1,
         scale: 1,
-        transition: springTransition,
+        transition: luxuriousSpring,
     },
 };
 
@@ -123,9 +190,7 @@ export const scaleInSpring: Variants = {
 // LEGACY VARIANTS (Backward compatibility)
 // ===================================
 
-/**
- * Legacy fadeInUp with easeOut (for gradual migration)
- */
+/** Legacy fadeInUp with easeOut */
 export const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
@@ -139,38 +204,39 @@ export const fadeInUp: Variants = {
 // MICRO-INTERACTION VARIANTS
 // ===================================
 
-/**
- * Hover and tap states for buttons/cards
- * Apply these via whileHover and whileTap props
- */
+/** Tap scale for buttons */
 export const tapScale = { scale: 0.95 };
+
+/** Hover scale for cards/buttons */
 export const hoverScale = { scale: 1.05 };
+
+/** Subtle hover scale for primary buttons */
 export const hoverScaleSubtle = { scale: 1.02 };
 
-/**
- * Card hover with lift effect
- */
+/** Card hover with lift effect */
 export const cardHover = {
     y: -4,
-    transition: { duration: 0.2 },
+    transition: fastTransition,
 };
 
 // ===================================
-// UTILITY FUNCTIONS
+// SMART UTILITY FUNCTIONS
 // ===================================
 
 /**
  * Get animation props that respect reduced motion preference
- * @param shouldReduceMotion - from useReducedMotion hook
+ * @param shouldAnimate - from useAnimationConfig().shouldAnimate
  * @param variants - Framer Motion variants to apply
  * @param useWhileInView - true for scroll-triggered, false for initial load
+ * @param viewportMargin - from useAnimationConfig().viewportMargin
  */
 export const getMotionProps = (
-    shouldReduceMotion: boolean | null,
+    shouldAnimate: boolean,
     variants: Variants,
-    useWhileInView: boolean = true
+    useWhileInView: boolean = true,
+    viewportMargin: string = '-50px'
 ) => {
-    if (shouldReduceMotion) {
+    if (!shouldAnimate) {
         return {}; // No animation for users who prefer reduced motion
     }
 
@@ -178,7 +244,7 @@ export const getMotionProps = (
         return {
             initial: "hidden",
             whileInView: "visible",
-            viewport: { once: true, margin: '-50px' },
+            viewport: { once: true, margin: viewportMargin },
             variants,
         };
     }
@@ -192,9 +258,10 @@ export const getMotionProps = (
 
 /**
  * Get hover/tap props that respect reduced motion
+ * @param shouldAnimate - from useAnimationConfig().shouldAnimate
  */
-export const getInteractionProps = (shouldReduceMotion: boolean | null) => {
-    if (shouldReduceMotion) {
+export const getInteractionProps = (shouldAnimate: boolean) => {
+    if (!shouldAnimate) {
         return {};
     }
 
@@ -207,9 +274,10 @@ export const getInteractionProps = (shouldReduceMotion: boolean | null) => {
 
 /**
  * Get subtle hover/tap props (for primary buttons that already scale)
+ * @param shouldAnimate - from useAnimationConfig().shouldAnimate
  */
-export const getSubtleInteractionProps = (shouldReduceMotion: boolean | null) => {
-    if (shouldReduceMotion) {
+export const getSubtleInteractionProps = (shouldAnimate: boolean) => {
+    if (!shouldAnimate) {
         return {};
     }
 
@@ -218,4 +286,18 @@ export const getSubtleInteractionProps = (shouldReduceMotion: boolean | null) =>
         whileTap: tapScale,
         transition: snappySpring,
     };
+};
+
+/**
+ * Create device-aware fade-in-up props
+ * Combines device detection with motion props
+ */
+export const getDeviceAwareMotionProps = (
+    shouldAnimate: boolean,
+    isMobile: boolean,
+    useWhileInView: boolean = true,
+    viewportMargin: string = '-50px'
+) => {
+    const variants = isMobile ? fadeInUpMobile : fadeInUpSpring;
+    return getMotionProps(shouldAnimate, variants, useWhileInView, viewportMargin);
 };

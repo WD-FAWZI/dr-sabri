@@ -31,7 +31,7 @@ export default function LanguageSwitcher({ locale }: { locale: string }) {
     return (
         <button
             onClick={handleLanguageSwitch}
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-600 text-slate-300 hover:border-white hover:text-white transition-all text-sm"
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-600 text-slate-300 hover:border-white hover:text-white transition-[border-color,color] duration-200 text-sm"
         >
             <Languages size={16} />
             <span>{t('switch')}</span>

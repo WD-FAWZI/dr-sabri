@@ -1,40 +1,46 @@
 'use client';
 
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Quote } from 'lucide-react';
-import { staggerContainer, fadeInUpSpring, springTransition } from '@/lib/animations';
+import { useAnimationConfig } from '@/hooks/useAnimationConfig';
+import { createStaggerContainer, createFadeInUpVariant, fastTransition } from '@/lib/animations';
 
 /**
  * Philosophy - Scientific message and teaching philosophy
  * Features:
- * - Staggered entrance animations with spring physics
+ * - Device-aware staggered entrance animations
+ * - Desktop: Luxurious springs | Mobile: Snappy springs
  * - Quote card and content animate sequentially
  * - Feature cards have individual spring animations
- * - Performance optimized with prefers-reduced-motion support
  */
 export default function Philosophy({ locale }: { locale: string }) {
-    const shouldReduceMotion = useReducedMotion();
+    // Device-aware animation config
+    const { spring, shouldAnimate, staggerDelay, viewportMargin } = useAnimationConfig();
+
+    // Create device-optimized variants
+    const staggerContainer = createStaggerContainer(staggerDelay);
+    const fadeInUpVariant = createFadeInUpVariant(spring);
 
     // Container animation props
-    const containerProps = shouldReduceMotion
-        ? {}
-        : {
+    const containerProps = shouldAnimate
+        ? {
             initial: "hidden",
             whileInView: "visible",
-            viewport: { once: true, margin: '-50px' },
+            viewport: { once: true, margin: viewportMargin },
             variants: staggerContainer,
-        };
+        }
+        : {};
 
     // Item animation props
-    const itemProps = shouldReduceMotion ? {} : { variants: fadeInUpSpring };
+    const itemProps = shouldAnimate ? { variants: fadeInUpVariant } : {};
 
     // Card hover effect
-    const cardHoverProps = shouldReduceMotion
-        ? {}
-        : {
-            whileHover: { y: -4, transition: springTransition },
-        };
+    const cardHoverProps = shouldAnimate
+        ? {
+            whileHover: { y: -4, transition: fastTransition },
+        }
+        : {};
 
     return (
         <section className="py-24 bg-slate-900 relative">
