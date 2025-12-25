@@ -137,23 +137,31 @@ h3 {
   color: rgb(199, 210, 254);
 }
 
-/* Scrollbar Styling */
+/* Custom Scrollbar - Slim & Premium */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgb(var(--color-bg-secondary));
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(var(--color-bg-tertiary));
-  border-radius: 4px;
+  background: rgba(51, 65, 85, 0.5);
+  /* slate-700 with opacity */
+  border-radius: 99px;
+  transition: background 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(var(--color-primary));
+}
+
+/* Firefox Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(51, 65, 85, 0.5) transparent;
 }
 
 /* ===================================

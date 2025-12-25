@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { DR_SABRI_BLUR } from '@/lib/imageBlurData';
+// import Image from 'next/image'; // ImageWithSkeleton uses Image internally
+import ImageWithSkeleton from '@/components/ui/ImageWithSkeleton';
+// import { DR_SABRI_BLUR } from '@/lib/imageBlurData';
 import { useAnimationConfig } from '@/hooks/useAnimationConfig';
 import { createStaggerContainer, createFadeInUpVariant, scaleInSpring } from '@/lib/animations';
 import MotionButton from '@/components/ui/MotionButton';
@@ -50,13 +51,14 @@ export default function Hero({ locale }: { locale: string }) {
                     className="space-y-8"
                 >
                     {/* Glowing Avatar Container - Scale in animation */}
+                    {/* Glowing Avatar Container - Scale in animation */}
                     <motion.div
                         {...scaleItemProps}
                         className="w-32 h-32 mx-auto rounded-full p-1 bg-gradient-to-br from-indigo-500 to-teal-400 shadow-[0_0_40px_rgba(99,102,241,0.5)] cursor-pointer relative group"
                     >
                         <div className="w-full h-full rounded-full bg-slate-800 overflow-hidden flex items-center justify-center relative">
                             {!imageError ? (
-                                <Image
+                                <ImageWithSkeleton
                                     src="/images/dr-sabri.jpg"
                                     alt={t('name')}
                                     width={128}
@@ -65,9 +67,9 @@ export default function Hero({ locale }: { locale: string }) {
                                     priority
                                     quality={85}
                                     sizes="128px"
-                                    placeholder="blur"
-                                    blurDataURL={DR_SABRI_BLUR}
                                     onError={() => setImageError(true)}
+                                // Blur prop is optional now as we have skeleton, but can keep for double effect or remove.
+                                // Removing placeholder="blur" to let Skeleton take precedence visually.
                                 />
                             ) : (
                                 <div className="flex flex-col items-center justify-center text-slate-400 w-full h-full bg-slate-800">

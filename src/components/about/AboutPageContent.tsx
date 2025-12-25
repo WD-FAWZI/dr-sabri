@@ -3,8 +3,9 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { DR_SABRI_BLUR } from '@/lib/imageBlurData';
+// import Image from 'next/image';
+import ImageWithSkeleton from '@/components/ui/ImageWithSkeleton';
+// import { DR_SABRI_BLUR } from '@/lib/imageBlurData';
 import { Target, Award, Users, Globe, Heart, Lightbulb, Shield, Sparkles } from 'lucide-react';
 import CountUp from '@/components/ui/CountUp';
 import Navbar from '@/components/layout/Navbar';
@@ -373,7 +374,7 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                             <div className="md:col-span-1 flex justify-center">
                                 <div className="w-48 h-48 rounded-full bg-gradient-to-br from-indigo-500 to-teal-400 p-1">
                                     <div className="w-full h-full rounded-full overflow-hidden bg-slate-800">
-                                        <Image
+                                        <ImageWithSkeleton
                                             src="/images/dr-sabri.jpg"
                                             alt={t('founder.name')}
                                             width={192}
@@ -382,8 +383,6 @@ export default function AboutPageContent({ locale }: AboutPageContentProps) {
                                             loading="lazy"
                                             quality={85}
                                             sizes="192px"
-                                            placeholder="blur"
-                                            blurDataURL={DR_SABRI_BLUR}
                                         />
                                     </div>
                                 </div>
