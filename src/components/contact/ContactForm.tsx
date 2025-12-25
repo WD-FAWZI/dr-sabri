@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle, AlertCircle, Loader2, MessageSquare } from 'lucide-react';
 import { useAnimationConfig } from '@/hooks/useAnimationConfig';
 import { easings } from '@/lib/animations';
+import { contactFormSchema } from '@/lib/validation';
 
 interface ContactFormProps {
     locale: string;
@@ -153,30 +154,25 @@ export default function ContactForm({ locale }: ContactFormProps) {
 
     // Validation
     const validateForm = (): boolean => {
-        const newErrors: FormErrors = {};
+        // Zod Validation
+        const result = contactFormSchema.safeParse(formData);
 
-        if (!formData.name.trim()) {
-            newErrors.name = t.required;
+        if (!result.success) {
+            const formattedErrors: FormErrors = {};
+
+            // Map Zod errors to form errors
+            result.error.issues.forEach((issue) => {
+                // Key is the first element of path (e.g., 'email')
+                const key = issue.path[0] as keyof FormErrors;
+                formattedErrors[key] = issue.message;
+            });
+
+            setErrors(formattedErrors);
+            return false;
         }
 
-        if (!formData.email.trim()) {
-            newErrors.email = t.required;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = t.invalidEmail;
-        }
-
-        if (!formData.subject.trim()) {
-            newErrors.subject = t.required;
-        }
-
-        if (!formData.message.trim()) {
-            newErrors.message = t.required;
-        } else if (formData.message.length < 10) {
-            newErrors.message = t.minLength;
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        setErrors({});
+        return true;
     };
 
     // Handle input change

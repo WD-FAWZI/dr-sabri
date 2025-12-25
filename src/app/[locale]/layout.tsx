@@ -8,6 +8,7 @@ import NetworkStatusBanner from '@/components/ui/NetworkStatusBanner';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import InstallAppButton from '@/components/pwa/InstallAppButton';
 import PageTransitionWrapper from '@/components/layout/PageTransitionWrapper';
+import SplashController from '@/components/layout/SplashController';
 import '../globals.css';
 
 // Arabic font - Tajawal (optimized for Arabic text)
@@ -29,6 +30,14 @@ const inter = Inter({
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({ locale }));
 }
+
+export const metadata = {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+    title: {
+        template: '%s | Dr. Sabri',
+        default: 'Dr. Sabri Training Center',
+    },
+};
 
 // Google Analytics Tracking ID (set in environment variables)
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
@@ -104,6 +113,7 @@ export default async function LocaleLayout({
             </head>
             <body className="min-h-screen bg-slate-900 text-slate-100 antialiased">
                 <NextIntlClientProvider messages={messages}>
+                    <SplashController />
                     <NetworkStatusBanner />
                     {children}
                     <WhatsAppButton locale={locale} />

@@ -1,4 +1,5 @@
 import certificatesData from '@/data/certificates.json';
+import { certificateIdSchema } from '@/lib/validation';
 
 export interface Certificate {
     id: string;
@@ -48,8 +49,8 @@ class CertificateService {
      * Format: STC-YYYY-NNN (e.g., STC-2024-001)
      */
     validateFormat(certificateId: string): boolean {
-        const regex = /^STC-\d{4}-\d{3}$/i;
-        return regex.test(certificateId.trim());
+        const result = certificateIdSchema.safeParse(certificateId.trim());
+        return result.success;
     }
 }
 

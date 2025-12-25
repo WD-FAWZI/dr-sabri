@@ -35,7 +35,7 @@ export default function Partners({ locale }: { locale: string }) {
         };
 
     return (
-        <div className="bg-slate-900 border-t border-slate-800 py-10">
+        <div className="bg-slate-900 border-t border-slate-800 py-16">
             <motion.div
                 {...containerProps}
                 className="max-w-6xl mx-auto px-6"

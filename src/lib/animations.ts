@@ -220,6 +220,28 @@ export const cardHover = {
 };
 
 // ===================================
+// LUXURY SHINE EFFECT
+// ===================================
+
+/**
+ * Shine keyframes for primary buttons
+ * A subtle white beam that traverses the element
+ */
+export const shineVariants: Variants = {
+    initial: { x: "-100%", opacity: 0 },
+    animate: {
+        x: "200%",
+        opacity: [0, 0.4, 0],
+        transition: {
+            duration: 2.2,
+            repeat: Infinity,
+            repeatDelay: 6,
+            ease: "easeInOut",
+        },
+    },
+};
+
+// ===================================
 // SMART UTILITY FUNCTIONS
 // ===================================
 

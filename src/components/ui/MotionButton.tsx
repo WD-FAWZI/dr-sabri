@@ -92,12 +92,33 @@ export default function MotionButton({
         return (
             <motion.a
                 href={href}
-                className={combinedClasses}
+                className={`relative overflow-hidden ${combinedClasses}`}
                 aria-label={ariaLabel}
                 {...linkProps}
                 {...motionProps}
             >
-                {children}
+                {/* Shine Effect for Primary/Form buttons */}
+                {(variant === 'primary' || variant === 'form') && shouldAnimate && (
+                    <motion.div
+                        initial="initial"
+                        animate="animate"
+                        variants={{
+                            initial: { x: "-100%", opacity: 0 },
+                            animate: {
+                                x: "200%",
+                                opacity: [0, 0.35, 0],
+                                transition: {
+                                    duration: 2.5,
+                                    repeat: Infinity,
+                                    repeatDelay: 5,
+                                    ease: "easeInOut",
+                                },
+                            },
+                        }}
+                        className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"
+                    />
+                )}
+                <span className="relative z-10">{children}</span>
             </motion.a>
         );
     }
@@ -106,13 +127,34 @@ export default function MotionButton({
     return (
         <motion.button
             type={type}
-            className={combinedClasses}
+            className={`relative overflow-hidden ${combinedClasses}`}
             onClick={onClick}
             disabled={disabled}
             aria-label={ariaLabel}
             {...motionProps}
         >
-            {children}
+            {/* Shine Effect for Primary/Form buttons */}
+            {(variant === 'primary' || variant === 'form') && shouldAnimate && !disabled && (
+                <motion.div
+                    initial="initial"
+                    animate="animate"
+                    variants={{
+                        initial: { x: "-100%", opacity: 0 },
+                        animate: {
+                            x: "200%",
+                            opacity: [0, 0.35, 0],
+                            transition: {
+                                duration: 2.5,
+                                repeat: Infinity,
+                                repeatDelay: 5,
+                                ease: "easeInOut",
+                            },
+                        },
+                    }}
+                    className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"
+                />
+            )}
+            <span className="relative z-10">{children}</span>
         </motion.button>
     );
 }

@@ -43,7 +43,7 @@ export default function Philosophy({ locale }: { locale: string }) {
         : {};
 
     return (
-        <section className="py-24 bg-slate-900 relative">
+        <section className="py-32 bg-slate-900 relative">
             <div className="max-w-5xl mx-auto px-6">
                 <motion.div
                     {...containerProps}
@@ -54,8 +54,8 @@ export default function Philosophy({ locale }: { locale: string }) {
                         {...itemProps}
                         className="order-2 md:order-1 relative"
                     >
-                        <div className="relative z-10 glass-card p-8 md:p-10 rounded-3xl space-y-6 text-right">
-                            <div className="absolute -top-6 -right-6 text-indigo-500/30 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+                        <div className="relative z-10 glass-card p-8 md:p-10 rounded-3xl space-y-6 text-right shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_20px_rgba(99,102,241,0.1)]">
+                            <div className="absolute -top-6 -right-6 text-indigo-500/30 drop-shadow-[0_0_20px_rgba(99,102,241,0.6)]">
                                 <Quote size={80} fill="currentColor" />
                             </div>
 

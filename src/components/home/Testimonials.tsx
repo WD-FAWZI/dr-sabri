@@ -75,7 +75,7 @@ export default function Testimonials({ locale }: TestimonialsProps) {
         : 'Success stories from Dr. Sabri Abu Quron Training Center graduates';
 
     return (
-        <section className="py-20 relative overflow-hidden">
+        <section className="py-32 relative overflow-hidden">
             {/* Background Gradient */}
             <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-indigo-950/20 to-slate-900/50" />
 
