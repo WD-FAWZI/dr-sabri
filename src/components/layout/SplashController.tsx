@@ -9,6 +9,16 @@ export default function SplashController() {
 
     useEffect(() => {
         setMounted(true);
+
+        // Only show splash screen in PWA mode (standalone)
+        const isPWA = window.matchMedia('(display-mode: standalone)').matches
+            || (window.navigator as unknown as { standalone?: boolean }).standalone === true // iOS Safari
+            || document.referrer.includes('android-app://'); // Android TWA
+
+        if (!isPWA) {
+            return; // Don't show splash for regular browser visits
+        }
+
         // Check if user has already seen the splash screen in this session
         const hasSeenSplash = sessionStorage.getItem('hasSeenSplash');
 
