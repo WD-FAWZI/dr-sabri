@@ -52,9 +52,10 @@
   --transition-slow: 500ms ease;
 }
 
-/* Base Body Styles */
+/* Base Body Styles - #020509 prevents white flash during PWA splash */
+html,
 body {
-  background-color: rgb(var(--color-bg-primary));
+  background-color: #020509;
   color: rgb(var(--color-text-primary));
   font-family: var(--font-inter, ui-sans-serif, system-ui, -apple-system, sans-serif);
   line-height: 1.625;
