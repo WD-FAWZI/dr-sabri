@@ -8,7 +8,6 @@ import NetworkStatusBanner from '@/components/ui/NetworkStatusBanner';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import InstallAppButton from '@/components/pwa/InstallAppButton';
 import PageTransitionWrapper from '@/components/layout/PageTransitionWrapper';
-import SplashController from '@/components/layout/SplashController';
 import '../globals.css';
 
 // Arabic font - Tajawal (optimized for Arabic text)
@@ -113,7 +112,6 @@ export default async function LocaleLayout({
             </head>
             <body className="min-h-screen bg-slate-900 text-slate-100 antialiased">
                 <NextIntlClientProvider messages={messages}>
-                    <SplashController />
                     <NetworkStatusBanner />
                     {children}
                     <WhatsAppButton locale={locale} />
