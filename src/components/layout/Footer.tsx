@@ -23,8 +23,8 @@ export default function Footer({ locale }: { locale: string }) {
                 </p>
             </div>
 
-            {/* Premium Developer Signature */}
-            <div className="border-t border-slate-900/50 mt-6">
+            {/* Premium Developer Signature - Safe zone for mobile FAB */}
+            <div className="border-t border-slate-900/50 mt-6 pt-4 pb-24 md:pb-4">
                 <FooterSignature />
             </div>
         </footer>
