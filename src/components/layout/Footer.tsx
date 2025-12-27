@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
+import FooterSignature from '@/components/ui/FooterSignature';
 
 /**
- * Footer - Simple professional footer
+ * Footer - Simple professional footer with premium signature
  */
 export default function Footer({ locale }: { locale: string }) {
     const currentYear = new Date().getFullYear();
@@ -21,6 +22,12 @@ export default function Footer({ locale }: { locale: string }) {
                     {locale === 'ar' ? 'جميع الحقوق محفوظة' : 'All Rights Reserved'}
                 </p>
             </div>
+
+            {/* Premium Developer Signature */}
+            <div className="border-t border-slate-900/50 mt-6">
+                <FooterSignature />
+            </div>
         </footer>
     );
 }
+

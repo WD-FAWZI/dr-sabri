@@ -466,3 +466,18 @@ h3 {
     transform: scale(1.05);
   }
 }
+
+/* Shimmer - Premium gold text effect */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 50%;
+  }
+
+  100% {
+    background-position: -200% 50%;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 4s ease-in-out infinite;
+}
