@@ -28,7 +28,7 @@ export class PushNotificationManager {
 
         const subscription = await registration.pushManager.subscribe({
             userVisibleOnly: true,
-            applicationServerKey: convertedVapidKey
+            applicationServerKey: convertedVapidKey.buffer as ArrayBuffer
         });
 
         // Send to backend
