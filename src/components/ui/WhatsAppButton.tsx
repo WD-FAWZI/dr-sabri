@@ -35,24 +35,18 @@ export default function WhatsAppButton({
             initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.8, y: 20 }}
             animate={shouldReduceMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.4, ease: 'easeOut' }}
-            whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
+            whileHover={shouldReduceMotion ? {} : { scale: 1.08 }}
             whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
             aria-label={locale === 'ar' ? 'تواصل عبر واتساب' : 'Contact via WhatsApp'}
         >
             {/* Tooltip - Hidden on mobile */}
-            <span className="hidden md:block bg-white text-slate-800 px-4 py-2 rounded-full text-sm font-medium shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            <span className="hidden md:block bg-slate-800/90 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap border border-slate-700/50">
                 {locale === 'ar' ? 'تواصل معنا' : 'Chat with us'}
             </span>
 
-            {/* WhatsApp Button */}
-            <div className="relative">
-                {/* Pulse Ring Animation */}
-                <span className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-25" />
-
-                {/* Button */}
-                <div className="relative w-14 h-14 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-[0_4px_20px_rgba(34,197,94,0.5)] hover:shadow-[0_6px_30px_rgba(34,197,94,0.7)] transition-shadow duration-300">
-                    <MessageCircle className="w-7 h-7 text-white" fill="currentColor" />
-                </div>
+            {/* WhatsApp Button - Theme-integrated */}
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-teal-500 flex items-center justify-center shadow-[0_4px_20px_rgba(99,102,241,0.4)] hover:shadow-[0_6px_25px_rgba(99,102,241,0.6)] transition-shadow duration-300">
+                <MessageCircle className="w-6 h-6 text-white" fill="currentColor" />
             </div>
         </motion.a>
     );

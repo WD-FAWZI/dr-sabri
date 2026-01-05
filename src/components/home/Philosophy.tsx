@@ -54,7 +54,7 @@ export default function Philosophy({ locale }: { locale: string }) {
                         {...itemProps}
                         className="order-2 md:order-1 relative overflow-visible"
                     >
-                        <div className="relative z-10 glass-card p-8 md:p-10 rounded-3xl space-y-6 text-right shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_20px_rgba(99,102,241,0.1)] overflow-visible">
+                        <div className="relative z-10 glass-card overflow-visible p-8 md:p-10 rounded-3xl space-y-6 text-right shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_20px_rgba(99,102,241,0.1)]">
                             <div className="absolute -top-6 -right-6 text-indigo-500/30 drop-shadow-[0_0_20px_rgba(99,102,241,0.6)]">
                                 <Quote size={80} fill="currentColor" />
                             </div>
