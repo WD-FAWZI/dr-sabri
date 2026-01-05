@@ -172,28 +172,45 @@ h3 {
 
 /* Base glass card - solid fallback for older devices */
 .glass-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+  /* For shine effects */
 }
 
 /* Apply blur only if supported - uses @supports for progressive enhancement */
-@supports (backdrop-filter: blur(12px)) {
+@supports (backdrop-filter: blur(20px)) {
   .glass-card {
-    background: var(--glass-bg-blur);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.4) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* Inner top-light for 3D glass effect */
+    box-shadow:
+      0 4px 24px -1px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+      inset 0 0 20px rgba(99, 102, 241, 0.03);
   }
+}
+
+/* Glass card with visible overflow - for decorative elements outside bounds */
+.glass-card.overflow-visible {
+  overflow: visible;
 }
 
 /* Glass card hover state - opt-in via additional class */
 .glass-card-hover {
-  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  transition: all var(--transition-base);
 }
 
 .glass-card-hover:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow:
+    var(--shadow-glow-sm),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 /* ===================================

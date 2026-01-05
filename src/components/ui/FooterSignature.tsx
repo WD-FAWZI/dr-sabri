@@ -21,17 +21,6 @@ export default function FooterSignature() {
                 rel="noopener noreferrer"
                 className="group relative inline-block"
             >
-                {/* Cyberpunk glow effect on hover */}
-                <span
-                    className="
-                        absolute inset-0 blur-lg opacity-0 
-                        group-hover:opacity-40 
-                        transition-opacity duration-500
-                        bg-gradient-to-r from-cyan-500 via-violet-500 to-cyan-500
-                    "
-                    aria-hidden="true"
-                />
-
                 <span
                     className="
                         relative

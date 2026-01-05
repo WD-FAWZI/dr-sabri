@@ -54,40 +54,39 @@ export default function Hero({ locale }: { locale: string }) {
                     {/* Glowing Avatar Container - Scale in animation */}
                     <motion.div
                         {...scaleItemProps}
-                        className="w-32 h-32 mx-auto rounded-full p-1 bg-gradient-to-br from-indigo-500 to-teal-400 shadow-[0_0_40px_rgba(99,102,241,0.5)] cursor-pointer relative group"
+                        className="w-32 h-32 mx-auto rounded-full p-[3px] bg-gradient-to-b from-indigo-400 via-teal-400/50 to-indigo-600/20 shadow-[0_0_50px_-10px_rgba(99,102,241,0.4),0_0_20px_rgba(20,184,166,0.3)] cursor-pointer relative group backdrop-blur-xl"
                     >
-                        <div className="w-full h-full rounded-full bg-slate-800 overflow-hidden flex items-center justify-center relative">
+                        <div className="w-full h-full rounded-full bg-slate-900 overflow-hidden flex items-center justify-center relative border-2 border-slate-900/50">
                             {!imageError ? (
                                 <ImageWithSkeleton
                                     src="/images/dr-sabri.jpg"
                                     alt={t('name')}
                                     width={128}
                                     height={128}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
                                     priority
                                     quality={85}
                                     sizes="128px"
                                     onError={() => setImageError(true)}
-                                // Blur prop is optional now as we have skeleton, but can keep for double effect or remove.
-                                // Removing placeholder="blur" to let Skeleton take precedence visually.
                                 />
                             ) : (
                                 <div className="flex flex-col items-center justify-center text-slate-400 w-full h-full bg-slate-800">
                                     <span className="text-4xl">👨‍⚕️</span>
                                 </div>
                             )}
-                            <div className="absolute inset-0 bg-indigo-500/10 group-hover:bg-transparent transition-colors" />
+                            <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-full" />
+                            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         </div>
                     </motion.div>
 
                     {/* Headline - Fade in up */}
                     <motion.h1
                         {...itemProps}
-                        className="text-4xl md:text-6xl font-bold text-white leading-tight"
+                        className="text-4xl md:text-6xl font-bold text-white leading-tight tracking-tighter rtl:tracking-normal"
                     >
                         {t('headline')}
                         <br />
-                        <span className="font-light italic text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-teal-400 text-3xl md:text-5xl mt-2 block leading-normal pb-2">
+                        <span className="font-light italic text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-teal-400 text-3xl md:text-5xl mt-2 block leading-normal pb-2 tracking-normal">
                             {locale === 'ar' ? 'فن ربط المعلومات' : 'The Art of Connecting Knowledge'}
                         </span>
                     </motion.h1>
